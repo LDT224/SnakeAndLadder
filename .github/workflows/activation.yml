@@ -1,18 +1,25 @@
-name: Acquire activation file
+name: CI/CD
+
 on:
-  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+
 jobs:
-  activation:
-    name: Request manual activation file 🔑
+  build:
+    name: Build
     runs-on: ubuntu-latest
+
     steps:
-      # Request manual activation file
-      - name: Request manual activation file
-        id: getManualLicenseFile
-        uses: game-ci/unity-request-activation-file@v2
-      # Upload artifact (Unity_v20XX.X.XXXX.alf)
-      - name: Expose as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Unity
+      uses: game-ci/unity-builder@v2
+      with:
+        unity-version: 2020.3.14f1
+        target-platform: standalone
+
+    - name: Build Unity project
+      run: |
+        unity-editor build -projectPath ./GameDeveloper\FinalProject -quit -batchmode
