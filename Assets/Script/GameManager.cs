@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     // Singleton instance
     private static GameManager instance;
 
+
     // Public accessor for the singleton instance
     public static GameManager Instance
     {
