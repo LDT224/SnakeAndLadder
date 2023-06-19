@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameStatus
+    {
+        Init,
+        Play,
+        InTurn,
+        InQuestion,
+        InBattleQuestion,
+        InMiniGame,
+        InBattleMiniGame,
+        Finish
+    }
+    public GameStatus status;
+
     // Singleton instance
     private static GameManager instance;
 
@@ -25,12 +38,52 @@ public class GameManager : MonoBehaviour
 
     public int minMiniBat;
     public int maxMiniBat;
+
+    //Dice
+    public bool canRoll;
+    //public int numRoll;
     // Public accessor for the singleton instance
     public static GameManager Instance
     {
         get { return instance; }
     }
+    //Change the game status
+    public void ChangeStatus(GameStatus newStatus)
+    {
+        status = newStatus;
 
+        // Add additional logic or functionality based on the new status
+        switch (newStatus)
+        {
+            case GameStatus.Init:
+                // Perform initialization tasks
+                break;
+            case GameStatus.Play:
+                canRoll = true;
+                // Start gameplay
+                break;
+            case GameStatus.InTurn:
+                canRoll = false;
+                // Start gameplay
+                break;
+            case GameStatus.InQuestion:
+                // Start gameplay
+                break;
+            case GameStatus.InBattleQuestion:
+                // Start gameplay
+                break;
+            case GameStatus.InMiniGame:
+                // Start gameplay
+                break;
+            case GameStatus.InBattleMiniGame:
+                // Start gameplay
+                break;
+            case GameStatus.Finish:
+                // Handle game over or player death
+                break;
+        }
+    }
+    //Change map information
     public void ChangeTypeMap(int type)
     {
         switch (type)
@@ -91,6 +144,9 @@ public class GameManager : MonoBehaviour
         // Set the instance
         instance = this;
 
+        //Can roll dice
+        //canRoll = true;
+
         // Keep the GameManager object throughout scenes
         DontDestroyOnLoad(gameObject);
 
@@ -104,4 +160,5 @@ public class GameManager : MonoBehaviour
             instance = null;
         }
     }
+
 }
