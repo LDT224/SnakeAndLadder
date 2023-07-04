@@ -16,14 +16,14 @@ public class MapController : MonoBehaviour
         {
             if(i%2 == 1)
             {
-                map.transform.GetChild(i).GetComponent<Renderer>().material.color = Color.green;
+                map.transform.GetChild(i).transform.GetChild(0).GetComponent<Renderer>().material.color = new Color32(244,214,148,255);
             }
         }
 
-        RanMap();
+        RandomMapInfo();
     }
 
-    public void RanMap()
+    public void RandomMapInfo()
     {
         int i = 0; 
             i = Random.Range(0, 3);
