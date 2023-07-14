@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
     public int minMiniBat;
     public int maxMiniBat;
 
+    public List<int> snakeHead = new List<int>();
+    public List<int> snakeTail = new List<int>();
+    public List<int> ladderTop = new List<int>();
+    public List<int> ladderBot = new List<int>();
     //Dice
     public bool canRoll;
     //public int numRoll;
@@ -56,6 +60,7 @@ public class GameManager : MonoBehaviour
         switch (newStatus)
         {
             case GameStatus.Init:
+                canRoll = false;
                 // Perform initialization tasks
                 break;
             case GameStatus.Play:
@@ -68,17 +73,23 @@ public class GameManager : MonoBehaviour
                 break;
             case GameStatus.InQuestion:
                 // Start gameplay
+                canRoll = false;
+
                 break;
             case GameStatus.InBattleQuestion:
+                canRoll = false;
                 // Start gameplay
                 break;
             case GameStatus.InMiniGame:
+                canRoll = false;
                 // Start gameplay
                 break;
             case GameStatus.InBattleMiniGame:
+                canRoll = false;
                 // Start gameplay
                 break;
             case GameStatus.Finish:
+                canRoll = false;
                 // Handle game over or player death
                 break;
         }
@@ -127,6 +138,19 @@ public class GameManager : MonoBehaviour
                 maxMini = 5;
                 minMiniBat = 3;
                 maxMiniBat = 4;
+                break;
+        }
+    }
+
+    public void ChangeSnakeAndLadder(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                snakeHead.AddRange(new [] { 1, 2, 3 });
+                snakeTail.AddRange(new[] { 1, 2, 3 });
+                ladderTop.AddRange(new[] { 1, 2, 3 });
+                ladderBot.AddRange(new[] { 1, 2, 3 });
                 break;
         }
     }

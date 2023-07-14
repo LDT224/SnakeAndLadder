@@ -584,7 +584,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8812143702262536250, guid: 1c258e6b956f33f47b6d2cc5c0a16dd5, type: 3}
       propertyPath: m_Name
-      value: Box
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8812143702262536251, guid: 1c258e6b956f33f47b6d2cc5c0a16dd5, type: 3}
       propertyPath: m_Pivot.x
@@ -3567,6 +3567,10 @@ MonoBehaviour:
   maxMini: 0
   minMiniBat: 0
   maxMiniBat: 0
+  snakeHead: 
+  snakeTail: 
+  ladderTop: 
+  ladderBot: 
   canRoll: 0
 --- !u!4 &1757655831
 Transform:

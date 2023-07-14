@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class DiceController : MonoBehaviour
 {
-    int roll;
+    private int roll;
     [SerializeField]
     List<Sprite> dice;
 
