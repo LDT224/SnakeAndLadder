@@ -12,13 +12,14 @@ public class MapController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i=0; i< map.transform.childCount; i++)
-        {
-            if(i%2 == 1)
-            {
-                map.transform.GetChild(i).transform.GetChild(0).GetComponent<Renderer>().material.color = new Color32(244,214,148,255);
-            }
-        }
+        //for (int i=0; i< map.transform.childCount; i++)
+        //{
+        //    if(i%2 == 1)
+        //    {
+        //        map.transform.GetChild(i).transform.GetChild(0).GetComponent<Renderer>().material.color = new Color32(244,214,148,255);
+        //    }
+        //    Debug.Log(map.transform.GetChild(i).name);
+        //}
 
         RandomMapInfo();
     }

@@ -28,8 +28,8 @@ public class MainGameController : MonoBehaviour
             {
                 numRoll = 1 + Random.Range(0, 6);
                 hit.collider.gameObject.GetComponent<DiceController>().Roll(numRoll);
-                Debug.Log( "roll: " + numRoll);
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
+                Debug.Log( "roll: " + numRoll);
             }
         }
     }
