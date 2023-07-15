@@ -147,10 +147,10 @@ public class GameManager : MonoBehaviour
         switch (type)
         {
             case 0:
-                snakeHead.AddRange(new [] { 1, 2, 3 });
-                snakeTail.AddRange(new[] { 1, 2, 3 });
-                ladderTop.AddRange(new[] { 1, 2, 3 });
-                ladderBot.AddRange(new[] { 1, 2, 3 });
+                //snakeHead.AddRange(new [] { 1, 2, 3 });
+                //snakeTail.AddRange(new[] { 1, 2, 3 });
+                //ladderTop.AddRange(new[] { 1, 2, 3 });
+                //ladderBot.AddRange(new[] { 1, 2, 3 });
                 break;
         }
     }
