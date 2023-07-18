@@ -76,7 +76,6 @@ public class MapController : MonoBehaviour
                 boxs[head].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.SnakeHead);
                 boxs[head].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "SnakeH" + i;
             }
-
             //Snake tail
             int tail = Random.Range(1, head);
             if (temp.Contains(tail))
@@ -92,6 +91,8 @@ public class MapController : MonoBehaviour
                 boxs[tail].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "SnakeT" + i;
             }
                 
+                boxs[head].GetComponent<BoxController>().ChangeSnakeHeadIcon(i);
+                boxs[tail].GetComponent<BoxController>().ChangeSnakeTailIcon(i);
         }
 
         //Random Ladder box
@@ -126,6 +127,8 @@ public class MapController : MonoBehaviour
                 boxs[top].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "LaddT" + i;
             }
 
+                boxs[top].GetComponent<BoxController>().ChangeLadderIcon(i);
+                boxs[bottom].GetComponent<BoxController>().ChangeLadderIcon(i);
 
         }
 
