@@ -1258,6 +1258,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &600467513 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8812143702262536250, guid: 1c258e6b956f33f47b6d2cc5c0a16dd5, type: 3}
+  m_PrefabInstance: {fileID: 1232090530}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &616529204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4173,6 +4178,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numRoll: 0
+  playerPrefab: {fileID: 4202339317861513421, guid: 150080d4cdb91b243b6d6feea3fc5d07, type: 3}
+  startBox: {fileID: 600467513}
+  playerColor:
+  - {r: 0.38431376, g: 0.61960787, b: 0.9490197, a: 1}
+  - {r: 0.9607844, g: 0.8588236, b: 0.2901961, a: 1}
+  - {r: 0.89019614, g: 0.1764706, b: 0.14509805, a: 1}
+  - {r: 0.227451, g: 0.6745098, b: 0.31764707, a: 1}
 --- !u!4 &2036975222
 Transform:
   m_ObjectHideFlags: 0
@@ -4703,5 +4715,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3654279812767932693, guid: d79894fd06713d346af147237d86f421, type: 3}
+      propertyPath: mainGameController
+      value: 
+      objectReference: {fileID: 2036975221}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d79894fd06713d346af147237d86f421, type: 3}

@@ -1,16 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainGameController : MonoBehaviour
 {
     public int numRoll;
+    private int currentPlayer = 0;
+    private List<GameObject> players = new List<GameObject>();
+    [SerializeField]
+    GameObject playerPrefab;
+    [SerializeField]
+    GameObject startBox;
+    [SerializeField]
+    Color[] playerColor;
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
+        for(int i = 0; i < 4; i++)
+        {
+            Vector3 spawnPos = new Vector3(0,0,0);
+            GameObject player = Instantiate(playerPrefab,spawnPos,Quaternion.identity);
+            players.Add(player);
+            player.transform.parent = startBox.transform.GetChild(2);
+            player.transform.localPosition = spawnPos;
+            player.GetComponent<SpriteRenderer>().color = playerColor[i];
+        }
+        SetCurrentPlayer();
     }
 
+    public void SetCurrentPlayer()
+    {
+        players[currentPlayer].GetComponent<SpriteRenderer>().sortingOrder = 3;
+    }
+
+    public void NextTurn()
+    {
+        players[currentPlayer].GetComponent<SpriteRenderer>().sortingOrder = 2;
+        currentPlayer = (currentPlayer + 1) % players.Count;
+        SetCurrentPlayer();
+    }
     // Update is called once per frame
     void Update()
     {

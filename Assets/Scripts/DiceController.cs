@@ -9,10 +9,11 @@ public class DiceController : MonoBehaviour
     [SerializeField]
     List<Sprite> dice;
 
+    public MainGameController mainGameController;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     public void RandomImage()
@@ -28,6 +29,7 @@ public class DiceController : MonoBehaviour
 
         //Roll dice available
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
+        mainGameController.NextTurn();
     }
     public void Roll(int temp)
     {
