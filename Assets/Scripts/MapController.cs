@@ -27,6 +27,8 @@ public class MapController : MonoBehaviour
                 {
                     boxs.Add(map.transform.GetChild(j).GameObject());
                 }
+
+                //map.transform.GetChild(j).GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
         ChangeMapInfo();
@@ -49,8 +51,8 @@ public class MapController : MonoBehaviour
         int j = 0;
         j = Random.Range(0, 1);
         GameManager.Instance.ChangeSnakeAndLadder(j);
-        
         RandomMap();
+        Debug.Log("Num snake: " + numSnake + ", num ladder: " + numLadder + ", num ques: " + numQues + ", num quesbat: " + numQuesBat + ", num mini: " + numMini + ", num minibat: " + numMiniBat);
     }
 
     private void RandomMap()
@@ -175,7 +177,7 @@ public class MapController : MonoBehaviour
         }
 
         //Random question box
-        for (int i = 0; i < numQues; i++)
+        for (int i = 0; i < numMiniBat; i++)
         {
             int j = Random.Range(1, GameManager.Instance.totalMap - 1);
             if (temp.Contains(j))
