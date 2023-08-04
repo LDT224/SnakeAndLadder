@@ -14,30 +14,33 @@ public class MainGameController : MonoBehaviour
     GameObject startBox;
     [SerializeField]
     Color[] playerColor;
+    private int numPlayer;
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
-        for(int i = 0; i < 4; i++)
-        {
-            Vector3 spawnPos = new Vector3(0,0,0);
-            GameObject player = Instantiate(playerPrefab,spawnPos,Quaternion.identity);
-            players.Add(player);
-            player.transform.parent = startBox.transform.GetChild(2);
-            player.transform.localPosition = spawnPos;
-            player.GetComponent<SpriteRenderer>().color = playerColor[i];
-        }
+        numPlayer = GameManager.Instance.numPlayer;
+        SpawnPlayer();
         SetCurrentPlayer();
     }
 
+    public void SpawnPlayer()
+    {
+        for (int i = 0; i < numPlayer; i++)
+        {
+            GameObject player = Instantiate(playerPrefab,Vector3.zero, Quaternion.identity);
+            players.Add(player);
+            startBox.GetComponent<BoxController>().CheckSlotPlayer(player);
+            player.GetComponent<SpriteRenderer>().color = playerColor[i];
+            Debug.Log(GameManager.Instance.numPlayer);
+        }
+    }
     public void SetCurrentPlayer()
     {
-        players[currentPlayer].GetComponent<SpriteRenderer>().sortingOrder = 3;
     }
 
     public void NextTurn()
     {
-        players[currentPlayer].GetComponent<SpriteRenderer>().sortingOrder = 2;
         currentPlayer = (currentPlayer + 1) % players.Count;
         SetCurrentPlayer();
     }

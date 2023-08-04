@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
 
     //Map information
+    public int numPlayer = 4;
     public int totalMap = 35;
     public int numdef =2;
     public int numSnake;
