@@ -6,19 +6,24 @@ using UnityEngine;
 public class MainGameController : MonoBehaviour
 {
     public int numRoll;
-    private int currentPlayer = 0;
+    public int currentPlayer = 0;
     private List<GameObject> players = new List<GameObject>();
     [SerializeField]
     GameObject playerPrefab;
     [SerializeField]
-    GameObject startBox;
-    [SerializeField]
     Color[] playerColor;
     private int numPlayer;
+    private int[] currentPos = new int[] { 0, 0, 0, 0 };
+    public MapController mapController;
+    private List<GameObject> maps = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
+
+        mapController = FindObjectOfType<MapController>();
+        maps = mapController.boxs;
+
         numPlayer = GameManager.Instance.numPlayer;
         SpawnPlayer();
         SetCurrentPlayer();
@@ -30,9 +35,8 @@ public class MainGameController : MonoBehaviour
         {
             GameObject player = Instantiate(playerPrefab,Vector3.zero, Quaternion.identity);
             players.Add(player);
-            startBox.GetComponent<BoxController>().CheckSlotPlayer(player);
+            maps[0].GetComponent<BoxController>().CheckSlotPlayer(players[i]);
             player.GetComponent<SpriteRenderer>().color = playerColor[i];
-            Debug.Log(GameManager.Instance.numPlayer);
         }
     }
     public void SetCurrentPlayer()
@@ -44,6 +48,28 @@ public class MainGameController : MonoBehaviour
         currentPlayer = (currentPlayer + 1) % players.Count;
         SetCurrentPlayer();
     }
+
+    public void PlayerMove(int currentPlayer,int numRoll)
+    {
+        int newPos = currentPos[currentPlayer] + numRoll;
+        if(newPos < 34)
+        {
+            currentPos[currentPlayer] = newPos;
+            maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
+            Debug.Log("Player " + currentPlayer + "move to " + currentPos[currentPlayer]);
+        }
+        else if(newPos == 34)
+        {
+            currentPos[currentPlayer] = newPos;
+            maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
+            Debug.Log("Player: " + currentPlayer + "WINNNNN!!!!");
+        }
+        else
+        {
+            Debug.Log("Over map =>> reRoll");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

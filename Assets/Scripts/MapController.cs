@@ -14,7 +14,7 @@ public class MapController : MonoBehaviour
     
     private int numQues, numQuesBat, numMini, numMiniBat, numNor, numSnake, numLadder;
 
-    private List<GameObject> boxs = new List<GameObject>();
+    public List<GameObject> boxs = new List<GameObject>();
     private List<int> temp = new List<int> ();
     // Start is called before the first frame update
     void Start()
