@@ -112,6 +112,7 @@ public class BoxController : MonoBehaviour
         player.transform.localPosition = Vector3.zero;
 
     }
+
     // Update is called once per frame
     void Update()
     {

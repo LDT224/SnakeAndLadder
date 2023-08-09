@@ -16,9 +16,13 @@ public class MapController : MonoBehaviour
 
     public List<GameObject> boxs = new List<GameObject>();
     private List<int> temp = new List<int> ();
+
+    private MainGameController gameController;
     // Start is called before the first frame update
     void Start()
     {
+        gameController = FindObjectOfType<MainGameController>();
+
         for(int i = 0; i < GameManager.Instance.totalMap; i++)
         {
             for(int j = 0; j < map.transform.childCount; j++)
@@ -48,20 +52,12 @@ public class MapController : MonoBehaviour
         numMiniBat = UnityEngine.Random.Range(GameManager.Instance.minMiniBat, GameManager.Instance.maxMiniBat + 1);
         numNor = GameManager.Instance.totalMap - numQues - numQuesBat - numMini - numMiniBat - GameManager.Instance.numSnake*2 - GameManager.Instance.numLadder*2- GameManager.Instance.numdef;
 
-        int j = 0;
-        j = Random.Range(0, 1);
-        GameManager.Instance.ChangeSnakeAndLadder(j);
         RandomMap();
         Debug.Log("Num snake: " + numSnake + ", num ladder: " + numLadder + ", num ques: " + numQues + ", num quesbat: " + numQuesBat + ", num mini: " + numMini + ", num minibat: " + numMiniBat);
     }
 
     private void RandomMap()
     {
-        //temp.AddRange(GameManager.Instance.snakeHead);
-        //temp.AddRange(GameManager.Instance.snakeTail);
-        //temp.AddRange(GameManager.Instance.ladderTop);
-        //temp.AddRange(GameManager.Instance.ladderBot);
-
         //Random Snake box
         for(int i =0; i<numSnake; i++)
         {
@@ -93,8 +89,10 @@ public class MapController : MonoBehaviour
                 boxs[tail].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "SnakeT" + i;
             }
                 
-                boxs[head].GetComponent<BoxController>().ChangeSnakeHeadIcon(i);
-                boxs[tail].GetComponent<BoxController>().ChangeSnakeTailIcon(i);
+            boxs[head].GetComponent<BoxController>().ChangeSnakeHeadIcon(i);
+            boxs[tail].GetComponent<BoxController>().ChangeSnakeTailIcon(i);
+
+            gameController.snakes.Add(head, tail);
         }
 
         //Random Ladder box
@@ -129,9 +127,10 @@ public class MapController : MonoBehaviour
                 boxs[top].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "LaddT" + i;
             }
 
-                boxs[top].GetComponent<BoxController>().ChangeLadderIcon(i);
-                boxs[bottom].GetComponent<BoxController>().ChangeLadderIcon(i);
+            boxs[top].GetComponent<BoxController>().ChangeLadderIcon(i);
+            boxs[bottom].GetComponent<BoxController>().ChangeLadderIcon(i);
 
+            gameController.ladders.Add(bottom, top);
         }
 
         //Random question box

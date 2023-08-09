@@ -143,19 +143,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeSnakeAndLadder(int type)
-    {
-        switch (type)
-        {
-            case 0:
-                //snakeHead.AddRange(new [] { 1, 2, 3 });
-                //snakeTail.AddRange(new[] { 1, 2, 3 });
-                //ladderTop.AddRange(new[] { 1, 2, 3 });
-                //ladderBot.AddRange(new[] { 1, 2, 3 });
-                break;
-        }
-    }
-
     private void Awake()
     {
         // Check if an instance already exists
