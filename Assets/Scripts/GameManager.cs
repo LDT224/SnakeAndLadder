@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
 
     //Map information
+    public int timeAnswerQuestion = 30;
     public int numPlayer = 4;
     public int totalMap = 35;
     public int numdef =2;
@@ -46,7 +47,6 @@ public class GameManager : MonoBehaviour
     public List<int> ladderBot = new List<int>();
     //Dice
     public bool canRoll;
-    //public int numRoll;
     // Public accessor for the singleton instance
     public static GameManager Instance
     {

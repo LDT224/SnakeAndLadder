@@ -14,15 +14,18 @@ public class MainGameController : MonoBehaviour
     Color[] playerColor;
     private int numPlayer;
     private int[] currentPos = new int[] { 0, 0, 0, 0 };
-    private MapController mapController;
     private List<GameObject> maps = new List<GameObject>();
     public IDictionary<int,int> snakes = new Dictionary<int,int>();
     public IDictionary<int,int> ladders = new Dictionary<int,int>();
+
+    private MapController mapController;
+    private MainUIController mainUIController;
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
+        GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);      
 
+        mainUIController = FindObjectOfType<MainUIController>();
         mapController = FindObjectOfType<MapController>();
         maps = mapController.boxs;
 
@@ -43,6 +46,7 @@ public class MainGameController : MonoBehaviour
     }
     public void SetCurrentPlayer()
     {
+        mainUIController.ChangeTurnTxt(currentPlayer +1);
     }
 
     public void NextTurn()
@@ -75,7 +79,8 @@ public class MainGameController : MonoBehaviour
 
     private IEnumerator CheckBoxMoveIn(int player ,int pos)
     {
-        yield return new WaitForSeconds(1.0f); // Wait 2 sec
+        yield return new WaitForSeconds(1.0f); // Wait 1 sec
+        int playerInTxt = player + 1;
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.SnakeHead)
         {
@@ -84,7 +89,7 @@ public class MainGameController : MonoBehaviour
                 currentPos[player] = snakes[pos];
                 maps[snakes[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[player]);
             }
-            Debug.Log("Player: " + player + " in snake box");
+            mainUIController.statusTxt.text = "Player " + playerInTxt + " in snake box";
         }
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.LadderBottom)
@@ -94,27 +99,29 @@ public class MainGameController : MonoBehaviour
                 currentPos[player] = ladders[pos];
                 maps[ladders[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[player]);
             }
-            Debug.Log("Player: " + player + " in ladder box");
+            mainUIController.statusTxt.text = "Player " + playerInTxt + " in ladder box";
         }
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
         {
-            Debug.Log("Player: " + player + " in question box");
+            mainUIController.statusTxt.text = "Player " + playerInTxt + " in question box";
+            mainUIController.OnQuestion();
         }
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
         {
-            Debug.Log("Player: " + player + " in battle question box");
+            mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle question box";
+            mainUIController.OnQuestion();
         }
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.MiniGame)
         {
-            Debug.Log("Player: " + player + " in mini game box");
+            mainUIController.statusTxt.text = "Player " + playerInTxt + " in mini game box";
         }
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleMiniGame)
         {
-            Debug.Log("Player: " + player + " in battle mini game box");
+            mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle mini game box";
         }
     }
     // Update is called once per frame
