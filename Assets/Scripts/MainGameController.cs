@@ -17,6 +17,10 @@ public class MainGameController : MonoBehaviour
     private List<GameObject> maps = new List<GameObject>();
     public IDictionary<int,int> snakes = new Dictionary<int,int>();
     public IDictionary<int,int> ladders = new Dictionary<int,int>();
+    [SerializeField]
+    private TextAsset listQuestion;
+    private string answer;
+    private List<int> questionShowed = new List<int>();
 
     private MapController mapController;
     private MainUIController mainUIController;
@@ -105,12 +109,14 @@ public class MainGameController : MonoBehaviour
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in question box";
+            GetQuestionData();
             mainUIController.OnQuestion();
         }
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle question box";
+            GetQuestionData();
             mainUIController.OnQuestion();
         }
 
@@ -122,6 +128,87 @@ public class MainGameController : MonoBehaviour
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleMiniGame)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle mini game box";
+        }
+    }
+
+    public void GetQuestionData()
+    {
+        string[] data = listQuestion.text.Split(new string[] { ";", "\n" }, System.StringSplitOptions.None);
+
+        while(mainUIController.questionTxt.text == "")
+        {
+            int r = Random.Range(0, data.Length);
+
+            if (questionShowed.Contains(r) == false)
+            {
+                for (int i = 0; i < data.Length; i++)
+                {
+                    if (data[i] == r.ToString())
+                    {
+                        mainUIController.questionTxt.text = "Question: " + data[i + 1];
+                        answer = data[i + 2];
+                        List<int> answerPicked = new List<int>();
+                        while (mainUIController.aTxt.text == "")
+                        {
+                            int ran = Random.Range(2, 6);
+                            if (answerPicked.Contains(ran) == false)
+                            {
+                                mainUIController.aTxt.text = "A: " + data[i + ran];
+                                answerPicked.Add(ran);
+                                Debug.Log("a " + ran);
+                            }
+                            else
+                                continue;
+                        }
+
+                        while (mainUIController.bTxt.text == "")
+                        {
+                            int ran = Random.Range(2, 6);
+                            if (answerPicked.Contains(ran) == false)
+                            {
+                                mainUIController.bTxt.text = "B: " + data[i + ran];
+                                answerPicked.Add(ran);
+                                Debug.Log("b " + ran);
+
+                            }
+                            else
+                                continue;
+                        }
+
+                        while (mainUIController.cTxt.text == "")
+                        {
+                            int ran = Random.Range(2, 6);
+                            if (answerPicked.Contains(ran) == false)
+                            {
+                                mainUIController.cTxt.text = "C: " + data[i + ran];
+                                answerPicked.Add(ran);
+                                Debug.Log("c " + ran);
+
+                            }
+                            else
+                                continue;
+                        }
+
+                        while (mainUIController.dTxt.text == "")
+                        {
+                            int ran = Random.Range(2, 6);
+                            if (answerPicked.Contains(ran) == false)
+                            {
+                                mainUIController.dTxt.text = "D: " + data[i + ran];
+                                answerPicked.Clear();
+                                Debug.Log("d " + ran);
+
+                            }
+                            else
+                                continue;
+                        }
+                    }
+                }
+                questionShowed.Add(r);
+            }
+            else
+                continue;
+
         }
     }
     // Update is called once per frame

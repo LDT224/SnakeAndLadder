@@ -18,6 +18,11 @@ public class MainUIController : MonoBehaviour
 
     [SerializeField]
     private GameObject questionUI;
+    public Text questionTxt;
+    public Text aTxt;
+    public Text bTxt;
+    public Text cTxt;
+    public Text dTxt;
     
     void Start()
     {
@@ -45,11 +50,17 @@ public class MainUIController : MonoBehaviour
             time--;
             yield return new WaitForSeconds(1f);
         }
+
         EndTime();
     }
-    private void EndTime()
+    public void EndTime()
     {
-        questionUI?.SetActive(false);
+        questionUI.SetActive(false);
+        questionTxt.text = "";
+        aTxt.text = "";
+        bTxt.text = "";
+        cTxt.text = "";
+        dTxt.text = "";
     }
     // Update is called once per frame
     void Update()

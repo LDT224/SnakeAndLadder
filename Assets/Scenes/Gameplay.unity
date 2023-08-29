@@ -227,19 +227,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82585996}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1026965616}
-  m_Father: {fileID: 1468911051}
-  m_RootOrder: 6
+  m_Father: {fileID: 1578018313}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -275, y: -850}
-  m_SizeDelta: {x: 500, y: -2236}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -472.5, y: -175}
+  m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &82585998
 MonoBehaviour:
@@ -284,7 +284,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 82585999}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 265297097}
+        m_TargetAssemblyTypeName: MainUIController, Assembly-CSharp
+        m_MethodName: EndTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &82585999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,6 +899,11 @@ MonoBehaviour:
   timeTxt: {fileID: 1663422782}
   timerFillImg: {fileID: 1352787896}
   questionUI: {fileID: 1468911048}
+  questionTxt: {fileID: 1251126628}
+  aTxt: {fileID: 1521954952}
+  bTxt: {fileID: 595250678}
+  cTxt: {fileID: 1026965617}
+  dTxt: {fileID: 1092408754}
 --- !u!114 &265297098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2499,7 +2516,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'A: Button Button Button Button Button Button'
+  m_Text: 
 --- !u!222 &595250679
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4382,19 +4399,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022975764}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1092408753}
-  m_Father: {fileID: 1468911051}
-  m_RootOrder: 7
+  m_Father: {fileID: 1578018313}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 275, y: -850}
-  m_SizeDelta: {x: 500, y: -2236}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 77.5, y: -175}
+  m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1022975766
 MonoBehaviour:
@@ -4439,7 +4456,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022975767}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 265297097}
+        m_TargetAssemblyTypeName: MainUIController, Assembly-CSharp
+        m_MethodName: EndTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1022975767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4549,7 +4578,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'A: Button Button Button Button Button Button'
+  m_Text: 
 --- !u!222 &1026965618
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4584,19 +4613,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1064485397}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1521954951}
-  m_Father: {fileID: 1468911051}
-  m_RootOrder: 4
+  m_Father: {fileID: 1578018313}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -275, y: -600}
-  m_SizeDelta: {x: 500, y: -2236}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -472.5, y: 75}
+  m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1064485399
 MonoBehaviour:
@@ -4641,7 +4670,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1064485400}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 265297097}
+        m_TargetAssemblyTypeName: MainUIController, Assembly-CSharp
+        m_MethodName: EndTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1064485400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4953,7 +4994,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'A: Button Button Button Button Button Button'
+  m_Text: 
 --- !u!222 &1092408755
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5247,7 +5288,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "C\xF3 1 chi\u1EBFc thuy\u1EC1n t\u1ED1i \u0111a l\xE0 ch\u1EC9 "
+  m_Text: 
 --- !u!222 &1251126629
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6432,19 +6473,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426929520}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 595250677}
-  m_Father: {fileID: 1468911051}
-  m_RootOrder: 5
+  m_Father: {fileID: 1578018313}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 275, y: -600}
-  m_SizeDelta: {x: 500, y: -2236}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 77.5, y: 75}
+  m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1426929522
 MonoBehaviour:
@@ -6489,7 +6530,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1426929523}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 265297097}
+        m_TargetAssemblyTypeName: MainUIController, Assembly-CSharp
+        m_MethodName: EndTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1426929523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6600,10 +6653,7 @@ RectTransform:
   - {fileID: 1006867045}
   - {fileID: 357079219}
   - {fileID: 1981326840}
-  - {fileID: 1064485398}
-  - {fileID: 1426929521}
-  - {fileID: 82585997}
-  - {fileID: 1022975765}
+  - {fileID: 1578018313}
   m_Father: {fileID: 265297101}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6885,7 +6935,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'A: Button Button Button Button Button Button'
+  m_Text: 
 --- !u!222 &1521954953
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6894,6 +6944,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521954950}
   m_CullTransparentMesh: 1
+--- !u!1 &1578018312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1578018313}
+  - component: {fileID: 1578018314}
+  m_Layer: 5
+  m_Name: Answer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1578018313
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578018312}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1064485398}
+  - {fileID: 1426929521}
+  - {fileID: 82585997}
+  - {fileID: 1022975765}
+  m_Father: {fileID: 1468911051}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 600}
+  m_SizeDelta: {x: -1520, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1578018314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578018312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 500, y: 200}
+  m_Spacing: {x: 50, y: 50}
+  m_Constraint: 1
+  m_ConstraintCount: 2
 --- !u!1001 &1619976457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8845,6 +8960,7 @@ MonoBehaviour:
   - {r: 0.9607844, g: 0.8588236, b: 0.2901961, a: 1}
   - {r: 0.89019614, g: 0.1764706, b: 0.14509805, a: 1}
   - {r: 0.227451, g: 0.6745098, b: 0.31764707, a: 1}
+  listQuestion: {fileID: 4900000, guid: ddc1e6fe5b079894c92adbfd518f40f6, type: 3}
 --- !u!4 &2036975222
 Transform:
   m_ObjectHideFlags: 0
