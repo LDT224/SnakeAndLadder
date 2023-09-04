@@ -19,10 +19,10 @@ public class MainUIController : MonoBehaviour
     [SerializeField]
     private GameObject questionUI;
     public Text questionTxt;
-    public Text aTxt;
-    public Text bTxt;
-    public Text cTxt;
-    public Text dTxt;
+    public Button aTxt;
+    public Button bTxt;
+    public Button cTxt;
+    public Button dTxt;
     
     void Start()
     {
@@ -57,10 +57,10 @@ public class MainUIController : MonoBehaviour
     {
         questionUI.SetActive(false);
         questionTxt.text = "";
-        aTxt.text = "";
-        bTxt.text = "";
-        cTxt.text = "";
-        dTxt.text = "";
+        aTxt.GetComponentInChildren<Text>().text = "";
+        bTxt.GetComponentInChildren<Text>().text = "";
+        cTxt.GetComponentInChildren<Text>().text = "";
+        dTxt.GetComponentInChildren<Text>().text = "";
     }
     // Update is called once per frame
     void Update()

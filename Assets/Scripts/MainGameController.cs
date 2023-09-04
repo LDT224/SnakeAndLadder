@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainGameController : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class MainGameController : MonoBehaviour
     private TextAsset listQuestion;
     private string answer;
     private List<int> questionShowed = new List<int>();
+    private string[] data;
 
     private MapController mapController;
     private MainUIController mainUIController;
@@ -133,7 +135,7 @@ public class MainGameController : MonoBehaviour
 
     public void GetQuestionData()
     {
-        string[] data = listQuestion.text.Split(new string[] { ";", "\n" }, System.StringSplitOptions.None);
+        data = listQuestion.text.Split(new string[] { ";", "\n" }, System.StringSplitOptions.None);
 
         while(mainUIController.questionTxt.text == "")
         {
@@ -148,12 +150,12 @@ public class MainGameController : MonoBehaviour
                         mainUIController.questionTxt.text = "Question: " + data[i + 1];
                         answer = data[i + 2];
                         List<int> answerPicked = new List<int>();
-                        while (mainUIController.aTxt.text == "")
+                        while (mainUIController.aTxt.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.aTxt.text = "A: " + data[i + ran];
+                                mainUIController.aTxt.GetComponentInChildren<Text>().text = "A: " + data[i + ran];
                                 answerPicked.Add(ran);
                                 Debug.Log("a " + ran);
                             }
@@ -161,12 +163,12 @@ public class MainGameController : MonoBehaviour
                                 continue;
                         }
 
-                        while (mainUIController.bTxt.text == "")
+                        while (mainUIController.bTxt.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.bTxt.text = "B: " + data[i + ran];
+                                mainUIController.bTxt.GetComponentInChildren<Text>().text = "B: " + data[i + ran];
                                 answerPicked.Add(ran);
                                 Debug.Log("b " + ran);
 
@@ -175,12 +177,12 @@ public class MainGameController : MonoBehaviour
                                 continue;
                         }
 
-                        while (mainUIController.cTxt.text == "")
+                        while (mainUIController.cTxt.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.cTxt.text = "C: " + data[i + ran];
+                                mainUIController.cTxt.GetComponentInChildren<Text>().text = "C: " + data[i + ran];
                                 answerPicked.Add(ran);
                                 Debug.Log("c " + ran);
 
@@ -189,12 +191,12 @@ public class MainGameController : MonoBehaviour
                                 continue;
                         }
 
-                        while (mainUIController.dTxt.text == "")
+                        while (mainUIController.dTxt.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.dTxt.text = "D: " + data[i + ran];
+                                mainUIController.dTxt.GetComponentInChildren<Text>().text = "D: " + data[i + ran];
                                 answerPicked.Clear();
                                 Debug.Log("d " + ran);
 
@@ -208,7 +210,23 @@ public class MainGameController : MonoBehaviour
             }
             else
                 continue;
+        }
+    }
 
+    public void CheckAnswer(Button button)
+    {
+        if(button.GetComponentInChildren<Text>().text.Substring(3) == answer)
+        {
+            Debug.Log("RIGHT!!!!!");
+            answer = "";
+            mainUIController.EndTime();
+        }
+        else
+        {
+            Debug.Log("WRONG!!!");
+            Debug.Log(answer);
+            answer = "";
+            mainUIController.EndTime();
         }
     }
     // Update is called once per frame
