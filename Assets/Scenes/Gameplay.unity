@@ -8960,7 +8960,7 @@ MonoBehaviour:
   - {r: 0.9607844, g: 0.8588236, b: 0.2901961, a: 1}
   - {r: 0.89019614, g: 0.1764706, b: 0.14509805, a: 1}
   - {r: 0.227451, g: 0.6745098, b: 0.31764707, a: 1}
-  listQuestion: {fileID: 4900000, guid: ddc1e6fe5b079894c92adbfd518f40f6, type: 3}
+  listQuestion: {fileID: 4900000, guid: f381bc19f1b8bae429d74a8a95ebf160, type: 3}
 --- !u!4 &2036975222
 Transform:
   m_ObjectHideFlags: 0
