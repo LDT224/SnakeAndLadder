@@ -15,8 +15,7 @@ public class LobbyController : MonoBehaviour
     [SerializeField]
     private GameObject inRoomPanel;
 
-    [SerializeField]
-    private GameObject playerList;
+    public GameObject playerList;
     [SerializeField]
     private GameObject player;
     
@@ -59,32 +58,20 @@ public class LobbyController : MonoBehaviour
     {
         homePanel.SetActive(false);
         inRoomPanel.SetActive(true);
-        
-        GameObject playerInRoom = Instantiate(player, Vector3.zero, Quaternion.identity);
-        playerInRoom.transform.parent = playerList.transform;
-        playerInRoom.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null; // Get player avatar
-        playerInRoom.transform.GetChild(1).GetComponent<Text>().text = PhotonNetwork.playerName;
-        playerInRoom.transform.localScale = Vector3.one;
-
-        int num = playerList.transform.childCount;
-        switch (num)
-        {
-            case 1:
-                playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(98, 158, 242, 255);
-                break;
-            case 2:
-                playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(245, 219, 74, 255);
-                break;
-            case 3:
-                playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(227, 45, 37, 255);
-                break;
-            case 4:
-                playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(58, 172, 81, 255);
-                break;
-
-        };
+        SpawnPlayer();
     }
 
+    public void SpawnPlayer()
+    {
+        GameObject playerInRoom = PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity, 0);
+
+        playerInRoom.transform.SetParent(playerList.transform);
+        playerInRoom.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null; // Get player avatar
+        playerInRoom.transform.localScale = Vector3.one;
+        playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(98, 158, 242, 255);
+        playerInRoom.transform.GetChild(1).GetComponent<Text>().text = "Player1";
+        //playerInRoom.transform.GetChild(1).GetComponent<Text>().text = PhotonNetwork.playerName;
+    }
     public void StartGame()
     {
         PhotonNetwork.LoadLevel("Gameplay");
