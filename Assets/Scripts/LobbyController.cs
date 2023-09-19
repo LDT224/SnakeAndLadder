@@ -18,6 +18,10 @@ public class LobbyController : MonoBehaviour
     public GameObject playerList;
     [SerializeField]
     private GameObject player;
+    [SerializeField]
+    private GameObject enterUsernamePanel;
+    [SerializeField]
+    private InputField userNameText;
     
     
     // Start is called before the first frame update
@@ -27,7 +31,12 @@ public class LobbyController : MonoBehaviour
     }
     void Start()
     {
-        
+        if(PlayfabController.instance.userName == null)
+        {
+            enterUsernamePanel.SetActive(true);
+        }
+        Debug.Log("Username: " + PlayerPrefs.GetString("UserName"));
+
     }
 
     private void OnConnectedToMaster()
@@ -39,7 +48,7 @@ public class LobbyController : MonoBehaviour
     public void SetPlayerName()
     {
         //Get player name from Playfab
-        PhotonNetwork.playerName = "";
+        PhotonNetwork.playerName = PlayerPrefs.GetString("UserName");
 
     }
     public void CreateRoom()
@@ -56,6 +65,7 @@ public class LobbyController : MonoBehaviour
 
     private void OnJoinedRoom()
     {
+        SetPlayerName();
         homePanel.SetActive(false);
         inRoomPanel.SetActive(true);
         SpawnPlayer();
@@ -69,8 +79,12 @@ public class LobbyController : MonoBehaviour
         playerInRoom.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null; // Get player avatar
         playerInRoom.transform.localScale = Vector3.one;
         playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(98, 158, 242, 255);
-        playerInRoom.transform.GetChild(1).GetComponent<Text>().text = "Player1";
-        //playerInRoom.transform.GetChild(1).GetComponent<Text>().text = PhotonNetwork.playerName;
+        playerInRoom.transform.GetChild(1).GetComponent<Text>().text = PhotonNetwork.playerName;
+    }
+
+    public void SubmitUsername()
+    {
+        PlayfabController.instance.UpdateUserName(userNameText.text);
     }
     public void StartGame()
     {

@@ -4,9 +4,12 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayfabController : MonoBehaviour
 {
+    public static PlayfabController instance;
+
     [SerializeField] private InputField registerEmailInput;
     [SerializeField] private InputField registerPasswordInput;
     [SerializeField] private InputField registerConfirmPasswordInput;
@@ -15,10 +18,25 @@ public class PlayfabController : MonoBehaviour
     [SerializeField] private InputField loginEmailInput;
     [SerializeField] private InputField loginPasswordInput;
     [SerializeField] private Text loginMessage;
+
+    public string userName;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject); 
+        }
+
+    }
     void Start()
     {
-        
     }
 
     public void Register()
@@ -52,6 +70,7 @@ public class PlayfabController : MonoBehaviour
     void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
         RegisterMessage.text = "Register successfull";
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void Login()
@@ -60,6 +79,10 @@ public class PlayfabController : MonoBehaviour
         {
             Email = loginEmailInput.text,
             Password = loginPasswordInput.text,
+            InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+            {
+                GetPlayerProfile = true
+            }
         };
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnError);
     }
@@ -67,6 +90,10 @@ public class PlayfabController : MonoBehaviour
     void OnLoginSuccess(LoginResult result)
     {
         loginMessage.text = "Login successfull";
+        SceneManager.LoadScene("MainMenu");
+        userName = null;
+        if(result.InfoResultPayload.PlayerProfile != null)
+            userName = result.InfoResultPayload.PlayerProfile.DisplayName;
     }
 
 
@@ -88,6 +115,21 @@ public class PlayfabController : MonoBehaviour
     void OnForgotPassword(SendAccountRecoveryEmailResult result)
     {
         loginMessage.text = "Password reset mail sent!";
+    }
+
+    
+    public void UpdateUserName(string username)
+    {
+        var request = new UpdateUserTitleDisplayNameRequest
+        {
+            DisplayName = username,
+        };
+        PlayFabClientAPI.UpdateUserTitleDisplayName(request, OnDisplayNameUpdate, OnError);
+    }
+
+    void OnDisplayNameUpdate(UpdateUserTitleDisplayNameResult result)
+    {
+        PlayerPrefs.SetString("UserName", result.DisplayName);
     }
     void OnError(PlayFabError error)
     {

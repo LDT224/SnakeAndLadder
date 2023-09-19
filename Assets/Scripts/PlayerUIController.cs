@@ -14,8 +14,6 @@ public class PlayerUIController : Photon.MonoBehaviour
         parent = lobbyController.playerList;
         if (photonView.IsMine)
         {
-            // ?i?u khi?n c?c b? trên máy ng??i ch?i hi?n t?i
-            // Thay ??i v? trí, cha m?, t? l? và các thông s? khác ? ?ây
         }
     }
 
@@ -24,7 +22,6 @@ public class PlayerUIController : Photon.MonoBehaviour
     {
         if (!photonView.IsMine)
         {
-            // C?p nh?t v? trí, cha m?, t? l? và các thông s? khác d?a trên d? li?u ??ng b? hóa
             transform.SetParent(parent.transform);
             transform.localScale = Vector3.one;
             
@@ -33,7 +30,7 @@ public class PlayerUIController : Photon.MonoBehaviour
                 if (i==0)
                 {
                     parent.transform.GetChild(i).GetChild(2).GetComponent<Image>().color = new Color32(98, 158, 242, 255);
-                    parent.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = "Player1";
+                    parent.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = PhotonNetwork.playerName;
                 }
                 else if (i == 1)
                 {
@@ -57,7 +54,6 @@ public class PlayerUIController : Photon.MonoBehaviour
     {
         if (stream.isWriting)
         {
-            // G?i d? li?u ??ng b? hóa t? máy ch? ??n các máy ch?i khác
             stream.SendNext(transform.parent);
             stream.SendNext(transform.localScale);
             stream.SendNext(transform.GetChild(2).GetComponent<Image>().color);
@@ -65,7 +61,6 @@ public class PlayerUIController : Photon.MonoBehaviour
         }
         else
         {
-            // Nh?n d? li?u ??ng b? hóa t? máy ch? và c?p nh?t nó trên máy c?a ng??i ch?i
         }
     }
 }
