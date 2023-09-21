@@ -28,9 +28,7 @@ public class DiceController : MonoBehaviour
         render.sprite = dice[roll-1];
 
         //Roll dice available
-        GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
         mainGameController.PlayerMove(mainGameController.currentPlayer, mainGameController.numRoll);
-        mainGameController.NextTurn();
     }
     public void Roll(int temp)
     {

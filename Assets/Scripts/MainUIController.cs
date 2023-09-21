@@ -61,6 +61,8 @@ public class MainUIController : MonoBehaviour
         bTxt.GetComponentInChildren<Text>().text = "";
         cTxt.GetComponentInChildren<Text>().text = "";
         dTxt.GetComponentInChildren<Text>().text = "";
+
+        GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
     // Update is called once per frame
     void Update()

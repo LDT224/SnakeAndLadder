@@ -9,16 +9,15 @@ public class GameManager : MonoBehaviour
         Init,
         Play,
         InTurn,
-        InQuestion,
-        InBattleQuestion,
-        InMiniGame,
-        InBattleMiniGame,
+        EndTurn,
         Finish
     }
     public GameStatus status;
 
     // Singleton instance
     private static GameManager instance;
+
+    public MainGameController gameController;
 
     //Map information
     public int timeAnswerQuestion = 30;
@@ -45,6 +44,7 @@ public class GameManager : MonoBehaviour
     public List<int> snakeTail = new List<int>();
     public List<int> ladderTop = new List<int>();
     public List<int> ladderBot = new List<int>();
+
     //Dice
     public bool canRoll;
     // Public accessor for the singleton instance
@@ -52,6 +52,12 @@ public class GameManager : MonoBehaviour
     {
         get { return instance; }
     }
+
+    private void Start()
+    {
+        gameController = GameObject.FindObjectOfType<MainGameController>();
+    }
+
     //Change the game status
     public void ChangeStatus(GameStatus newStatus)
     {
@@ -72,28 +78,17 @@ public class GameManager : MonoBehaviour
                 canRoll = false;
                 // Start gameplay
                 break;
-            case GameStatus.InQuestion:
+            case GameStatus.EndTurn:
                 // Start gameplay
                 canRoll = false;
-
-                break;
-            case GameStatus.InBattleQuestion:
-                canRoll = false;
-                // Start gameplay
-                break;
-            case GameStatus.InMiniGame:
-                canRoll = false;
-                // Start gameplay
-                break;
-            case GameStatus.InBattleMiniGame:
-                canRoll = false;
-                // Start gameplay
+                gameController.NextTurn();
                 break;
             case GameStatus.Finish:
                 canRoll = false;
                 // Handle game over or player death
                 break;
         }
+        Debug.Log("Status change to: " + newStatus);
     }
     //Change map information
     public void ChangeTypeMap(int type)

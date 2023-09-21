@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class MainGameController : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class MainGameController : MonoBehaviour
     public void SetCurrentPlayer()
     {
         mainUIController.ChangeTurnTxt(currentPlayer +1);
+        GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
     }
 
     public void NextTurn()
@@ -66,7 +68,6 @@ public class MainGameController : MonoBehaviour
         int newPos = currentPos[currentPlayer] + numRoll;
         if(newPos < GameManager.Instance.totalMap -1)
         {
-            currentPos[currentPlayer] = newPos;
             maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             StartCoroutine(CheckBoxMoveIn(currentPlayer, newPos));
             Debug.Log("Player " + currentPlayer + "move to " + currentPos[currentPlayer]);
@@ -75,6 +76,7 @@ public class MainGameController : MonoBehaviour
         {
             currentPos[currentPlayer] = newPos;
             maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.Finish);
             Debug.Log("Player: " + currentPlayer + "WINNNNN!!!!");
         }
         else
@@ -96,9 +98,9 @@ public class MainGameController : MonoBehaviour
                 maps[snakes[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[player]);
             }
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in snake box";
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
-
-        if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.LadderBottom)
+        else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.LadderBottom)
         {
             if (ladders.ContainsKey(pos))
             {
@@ -106,30 +108,34 @@ public class MainGameController : MonoBehaviour
                 maps[ladders[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[player]);
             }
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in ladder box";
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
-
-        if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
+        else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in question box";
             GetQuestionData();
             mainUIController.OnQuestion();
         }
-
-        if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
+        else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle question box";
             GetQuestionData();
             mainUIController.OnQuestion();
         }
-
-        if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.MiniGame)
+        else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.MiniGame)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in mini game box";
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
-
-        if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleMiniGame)
+        else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleMiniGame)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle mini game box";
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+        }
+        else
+        {
+            currentPos[currentPlayer] = pos;
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
     }
 
@@ -157,7 +163,6 @@ public class MainGameController : MonoBehaviour
                             {
                                 mainUIController.aTxt.GetComponentInChildren<Text>().text = "A: " + data[i + ran];
                                 answerPicked.Add(ran);
-                                Debug.Log("a " + ran);
                             }
                             else
                                 continue;
@@ -170,8 +175,6 @@ public class MainGameController : MonoBehaviour
                             {
                                 mainUIController.bTxt.GetComponentInChildren<Text>().text = "B: " + data[i + ran];
                                 answerPicked.Add(ran);
-                                Debug.Log("b " + ran);
-
                             }
                             else
                                 continue;
@@ -184,8 +187,6 @@ public class MainGameController : MonoBehaviour
                             {
                                 mainUIController.cTxt.GetComponentInChildren<Text>().text = "C: " + data[i + ran];
                                 answerPicked.Add(ran);
-                                Debug.Log("c " + ran);
-
                             }
                             else
                                 continue;
@@ -198,8 +199,6 @@ public class MainGameController : MonoBehaviour
                             {
                                 mainUIController.dTxt.GetComponentInChildren<Text>().text = "D: " + data[i + ran];
                                 answerPicked.Clear();
-                                Debug.Log("d " + ran);
-
                             }
                             else
                                 continue;
@@ -219,21 +218,21 @@ public class MainGameController : MonoBehaviour
         {
             Debug.Log("RIGHT!!!!!");
             answer = "";
-            mainUIController.EndTime();
+            currentPos[currentPlayer] = currentPos[currentPlayer] + numRoll;
         }
         else
         {
             Debug.Log("WRONG!!!");
             Debug.Log(answer);
             answer = "";
-            mainUIController.EndTime();
+            maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
         }
+        mainUIController.EndTime();
     }
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.canRoll == false) return;
-
+        if (GameManager.Instance.status == GameManager.GameStatus.InTurn) return;
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
