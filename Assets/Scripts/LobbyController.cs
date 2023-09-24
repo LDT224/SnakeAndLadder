@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +19,7 @@ public class LobbyController : MonoBehaviour
     private GameObject enterUsernamePanel;
     [SerializeField]
     private InputField userNameText;
-    
+
     
     // Start is called before the first frame update
     private void Awake()
@@ -93,6 +90,5 @@ public class LobbyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

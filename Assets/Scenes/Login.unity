@@ -184,12 +184,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 682008c7062560c488ffcbaedbb1df50, type: 3}
-    m_FontSize: 14
+    m_FontSize: 70
     m_FontStyle: 0
-    m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 300
-    m_Alignment: 1
+    m_BestFit: 0
+    m_MinSize: 7
+    m_MaxSize: 80
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1054,7 +1054,7 @@ GameObject:
   - component: {fileID: 391123966}
   - component: {fileID: 391123965}
   m_Layer: 5
-  m_Name: Username
+  m_Name: Email
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1103,18 +1103,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 682008c7062560c488ffcbaedbb1df50, type: 3}
-    m_FontSize: 14
+    m_FontSize: 70
     m_FontStyle: 0
-    m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 300
-    m_Alignment: 1
+    m_BestFit: 0
+    m_MinSize: 7
+    m_MaxSize: 80
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'UserName:'
+  m_Text: 'Email:'
 --- !u!222 &391123966
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2262,10 +2262,13 @@ MonoBehaviour:
   registerEmailInput: {fileID: 1446017841}
   registerPasswordInput: {fileID: 1516647645}
   registerConfirmPasswordInput: {fileID: 44970070}
-  RegisterMessage: {fileID: 896927679}
+  registerMessage: {fileID: 896927679}
   loginEmailInput: {fileID: 915572801}
   loginPasswordInput: {fileID: 501462024}
   loginMessage: {fileID: 245170374}
+  loginPanel: {fileID: 1517660074}
+  registerPanel: {fileID: 1329913482}
+  userName: 
 --- !u!4 &908549062
 Transform:
   m_ObjectHideFlags: 0

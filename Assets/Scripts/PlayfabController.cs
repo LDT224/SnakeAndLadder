@@ -13,11 +13,14 @@ public class PlayfabController : MonoBehaviour
     [SerializeField] private InputField registerEmailInput;
     [SerializeField] private InputField registerPasswordInput;
     [SerializeField] private InputField registerConfirmPasswordInput;
-    [SerializeField] private Text RegisterMessage;
+    [SerializeField] private Text registerMessage;
 
     [SerializeField] private InputField loginEmailInput;
     [SerializeField] private InputField loginPasswordInput;
     [SerializeField] private Text loginMessage;
+
+    [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject registerPanel;
 
     public string userName;
     // Start is called before the first frame update
@@ -43,18 +46,18 @@ public class PlayfabController : MonoBehaviour
     {
         if(registerEmailInput.text == "" || registerPasswordInput.text == "" || registerConfirmPasswordInput.text == "")
         {
-            RegisterMessage.text = "Missing information!";
+            registerMessage.text = "Missing information!";
             return;
         }
         if(registerPasswordInput.text.Length < 6)
         {
-            RegisterMessage.text = "Password too short!";
+            registerMessage.text = "Password too short!";
             return ;
         }
 
         if(registerConfirmPasswordInput.text != registerPasswordInput.text)
         {
-            RegisterMessage.text = "Password and Confirm password invalid!";
+            registerMessage.text = "Password and Confirm password invalid!";
             return;
         }
 
@@ -69,8 +72,11 @@ public class PlayfabController : MonoBehaviour
 
     void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
-        RegisterMessage.text = "Register successfull";
-        SceneManager.LoadScene("MainMenu");
+        registerMessage.text = "Register successfull";
+        loginMessage.text = "Enter your email and password to login";
+
+        registerPanel.SetActive(false);
+        loginPanel.SetActive(true);
     }
 
     public void Login()
@@ -133,7 +139,7 @@ public class PlayfabController : MonoBehaviour
     }
     void OnError(PlayFabError error)
     {
-        RegisterMessage.text = error.ErrorMessage;
+        registerMessage.text = error.ErrorMessage;
         loginMessage.text = error.ErrorMessage;
         Debug.Log(error.GenerateErrorReport());
     }
