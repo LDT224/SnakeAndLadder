@@ -1,10 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-
-public class LobbyController : MonoBehaviour
+using Photon.Pun;
+public class LobbyController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] 
-    private string VersionName = "0.1";
     [SerializeField]
     private InputField roomName;
     [SerializeField]
@@ -19,73 +17,91 @@ public class LobbyController : MonoBehaviour
     private GameObject enterUsernamePanel;
     [SerializeField]
     private InputField userNameText;
-
+    [SerializeField]
+    private Text roomNameText;
     
     // Start is called before the first frame update
-    private void Awake()
-    {
-        PhotonNetwork.ConnectUsingSettings(VersionName);
-    }
     void Start()
     {
-        if(PlayfabController.instance.userName == null)
-        {
-            enterUsernamePanel.SetActive(true);
-        }
-        Debug.Log("Username: " + PlayerPrefs.GetString("UserName"));
-
-    }
-
-    private void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        PhotonNetwork.ConnectUsingSettings();
         Debug.Log("Connect to server");
+
+        //if(PlayfabController.instance.userName == null)
+        //{
+        //    enterUsernamePanel.SetActive(true);
+        //}
+        //Debug.Log("Username: " + PlayerPrefs.GetString("UserName"));
+
     }
 
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+        Debug.Log("Connected to server");
+    }
+
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("Joined Lobby");
+    }
     public void SetPlayerName()
     {
         //Get player name from Playfab
-        PhotonNetwork.playerName = PlayerPrefs.GetString("UserName");
+       PhotonNetwork.NickName = PlayerPrefs.GetString("UserName");
 
     }
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(roomName.text, new RoomOptions() { maxPlayers = 4}, null);
+        if (string.IsNullOrEmpty(roomName.text))
+            return;
+       PhotonNetwork.CreateRoom(roomName.text);
     }
 
     public void JoinRoom()
     {
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.maxPlayers = 4;
-        PhotonNetwork.JoinOrCreateRoom(roomName.text, roomOptions, TypedLobby.Default);
+       // RoomOptions roomOptions = new RoomOptions();
+       // roomOptions.maxPlayers = 4;
+       // PhotonNetwork.JoinOrCreateRoom(roomName.text, roomOptions, TypedLobby.Default);
     }
 
-    private void OnJoinedRoom()
+    public override void OnJoinedRoom()
     {
         SetPlayerName();
         homePanel.SetActive(false);
         inRoomPanel.SetActive(true);
-        SpawnPlayer();
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+        //SpawnPlayer();
     }
 
     public void SpawnPlayer()
     {
-        GameObject playerInRoom = PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity, 0);
+        //GameObject playerInRoom = PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity, 0);
 
-        playerInRoom.transform.SetParent(playerList.transform);
-        playerInRoom.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null; // Get player avatar
-        playerInRoom.transform.localScale = Vector3.one;
-        playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(98, 158, 242, 255);
-        playerInRoom.transform.GetChild(1).GetComponent<Text>().text = PhotonNetwork.playerName;
+        //playerInRoom.transform.SetParent(playerList.transform);
+        //playerInRoom.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null; // Get player avatar
+        //playerInRoom.transform.localScale = Vector3.one;
+        //playerInRoom.transform.GetChild(2).GetComponent<Image>().color = new Color32(98, 158, 242, 255);
+        //playerInRoom.transform.GetChild(1).GetComponent<Text>().text = PhotonNetwork.playerName;
     }
 
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        homePanel.SetActive(true);
+        inRoomPanel.SetActive(false);
+        Debug.Log("Left room");
+    }
     public void SubmitUsername()
     {
         PlayfabController.instance.UpdateUserName(userNameText.text);
     }
     public void StartGame()
     {
-        PhotonNetwork.LoadLevel("Gameplay");
+        //PhotonNetwork.LoadLevel("Gameplay");
     }
     // Update is called once per frame
     void Update()
