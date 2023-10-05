@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 9141390063390886678}
   - component: {fileID: 3059531185877468380}
   m_Layer: 5
-  m_Name: PlayerUI
+  m_Name: PlayerItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -264,20 +264,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerId: 0
-  group: 0
-  OwnerShipWasTransfered: 0
-  prefixBackup: -1
-  synchronization: 0
-  onSerializeTransformOption: 3
-  onSerializeRigidBodyOption: 2
-  ownershipTransfer: 0
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 0}
-  ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
-  currentMasterID: -1
+  sceneViewId: 0
+  InstantiationId: -1
   isRuntimeInstantiated: 0
 --- !u!114 &3059531185877468380
 MonoBehaviour:
@@ -291,6 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80d1d60759e9c34ba3aeba80ad91a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNameTxt: {fileID: 5969864610183135481}
 --- !u!1 &5969864610426613198
 GameObject:
   m_ObjectHideFlags: 0
