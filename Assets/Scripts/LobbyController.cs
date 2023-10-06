@@ -31,6 +31,9 @@ public class LobbyController : MonoBehaviourPunCallbacks
     [SerializeField]
     private InputField userNameText;
 
+    [SerializeField]
+    private GameObject startBtn;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -52,6 +55,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
+        PhotonNetwork.AutomaticallySyncScene = true;
         Debug.Log("Connected to server");
     }
 
@@ -90,6 +94,11 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
         Player[] players = PhotonNetwork.PlayerList;
 
+        foreach(Transform child in playerList.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         for (int i = 0; i < players.Count(); i++)
         {
             Instantiate(playerPrefab, playerList.transform).GetComponent<PlayerListItem>().SetUp(players[i]);
@@ -111,6 +120,8 @@ public class LobbyController : MonoBehaviourPunCallbacks
                 playerList.transform.GetChild(i).GetChild(2).GetComponent<Image>().color = new Color32(58, 172, 81, 255);
             }
         }
+
+        startBtn.SetActive(PhotonNetwork.IsMasterClient);
     }
     public void LeaveRoom()
     {
@@ -124,6 +135,10 @@ public class LobbyController : MonoBehaviourPunCallbacks
         Debug.Log("Left room");
     }
 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        startBtn.SetActive(PhotonNetwork.IsMasterClient);
+    }
     public override void OnRoomListUpdate(List<RoomInfo> roomlist)
     {
         foreach(Transform trans in roomList.transform)
@@ -133,6 +148,8 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
         for(int i =0; i < roomlist.Count; i++)
         {
+            if (roomlist[i].RemovedFromList)
+                continue;
             Instantiate(roomPrefab, roomList.transform).GetComponent<RoomListItem>().Setup(roomlist[i]);
         }
     }
@@ -169,7 +186,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     }
     public void StartGame()
     {
-        //PhotonNetwork.LoadLevel("Gameplay");
+        PhotonNetwork.LoadLevel("Gameplay");
     }
     // Update is called once per frame
     void Update()

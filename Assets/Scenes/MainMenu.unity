@@ -3546,7 +3546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1511604525
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4281,6 +4281,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 5969864610277371331, guid: 675624c4edcf38a44957da0ba8343775, type: 3}
   enterUsernamePanel: {fileID: 1558961439}
   userNameText: {fileID: 132221308}
+  startBtn: {fileID: 1511604524}
 --- !u!4 &1653935026
 Transform:
   m_ObjectHideFlags: 0
