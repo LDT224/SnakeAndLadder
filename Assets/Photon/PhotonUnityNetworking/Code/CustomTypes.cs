@@ -14,7 +14,8 @@ namespace Photon.Pun
     using UnityEngine;
     using Photon.Realtime;
     using ExitGames.Client.Photon;
-
+    using System.Collections.Generic;
+    using System;
 
     /// <summary>
     /// Internally used class, containing de/serialization method for PUN specific classes.
@@ -25,9 +26,28 @@ namespace Photon.Pun
         internal static void Register()
         {
             PhotonPeer.RegisterType(typeof(Player), (byte) 'P', SerializePhotonPlayer, DeserializePhotonPlayer);
+            PhotonPeer.RegisterType(typeof(List<int>), (byte)'L',SerializeList, DeserializeList);
         }
 
+        private static byte[] SerializeList(object list)
+        {
+            List<int> intList = (List<int>)list;
+            byte[] data = new byte[intList.Count * sizeof(int)];
+            Buffer.BlockCopy(intList.ToArray(), 0, data, 0, data.Length);
+            return data;
+        }
 
+        // Ph??ng th?c Deserialize cho List<int>
+        private static object DeserializeList(byte[] data)
+        {
+            List<int> intList = new List<int>();
+            for (int i = 0; i < data.Length; i += sizeof(int))
+            {
+                int value = BitConverter.ToInt32(data, i);
+                intList.Add(value);
+            }
+            return intList;
+        }
         #region Custom De/Serializer Methods
 
         public static readonly byte[] memPlayer = new byte[4];
