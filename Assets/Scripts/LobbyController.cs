@@ -74,7 +74,10 @@ public class LobbyController : MonoBehaviourPunCallbacks
     {
         if (string.IsNullOrEmpty(roomName.text))
             return;
-        PhotonNetwork.CreateRoom(roomName.text);
+
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 4;
+        PhotonNetwork.CreateRoom(roomName.text, roomOptions);
     }
 
     public void JoinRoomByName()
