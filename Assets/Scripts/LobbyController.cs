@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Photon.Realtime;
 using Photon.Pun.Demo.Cockpit;
 using System.Linq;
+using System.Collections;
+
 
 public class LobbyController : MonoBehaviourPunCallbacks
 {
@@ -34,6 +36,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject startBtn;
 
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -44,11 +47,11 @@ public class LobbyController : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
         Debug.Log("Connect to server");
 
-        //if(PlayfabController.instance.userName == null)
-        //{
-        //    enterUsernamePanel.SetActive(true);
-        //}
-        //Debug.Log("Username: " + PlayerPrefs.GetString("UserName"));
+        if (PlayfabController.instance.userName == null)
+        {
+            enterUsernamePanel.SetActive(true);
+        }
+        Debug.Log("Username: " + PlayerPrefs.GetString("UserName"));
 
     }
 
@@ -74,7 +77,10 @@ public class LobbyController : MonoBehaviourPunCallbacks
     {
         if (string.IsNullOrEmpty(roomName.text))
             return;
-        PhotonNetwork.CreateRoom(roomName.text);
+
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 4;
+        PhotonNetwork.CreateRoom(roomName.text, roomOptions);
     }
 
     public void JoinRoomByName()
@@ -187,6 +193,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public void StartGame()
     {
         PhotonNetwork.LoadLevel("Gameplay");
+
     }
     // Update is called once per frame
     void Update()
