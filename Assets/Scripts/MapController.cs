@@ -210,79 +210,82 @@ public class MapController : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
-        if (propertiesThatChanged.ContainsKey("mapList"))
+        if (!PhotonNetwork.IsMasterClient)
         {
-            List<int> mapList = (List<int>)propertiesThatChanged["mapList"];
-            string mapListString = string.Join(", ", mapList.Select(x => x.ToString()).ToArray());
-            Debug.Log("Map List: " + mapListString);
-
-            int _numSnake = (int)propertiesThatChanged["numSnake"];
-            int _numLadder = (int)propertiesThatChanged["numLadder"];
-            int _numQues = (int)propertiesThatChanged["numQues"];
-            int _numQuesBat = (int)propertiesThatChanged["numQuesBat"];
-            int _numMini = (int)propertiesThatChanged["numMini"];
-            int _numMiniBat = (int)propertiesThatChanged["numMiniBat"];
-
-            for (int j = 0; j < _numSnake; j++)
+            if (propertiesThatChanged.ContainsKey("mapList"))
             {
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.SnakeHead);
-                boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "SnakeH" + j;
+                List<int> mapList = (List<int>)propertiesThatChanged["mapList"];
+                string mapListString = string.Join(", ", mapList.Select(x => x.ToString()).ToArray());
+                Debug.Log("Map List: " + mapListString);
 
-                boxs[mapList[1]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.SnakeTail);
-                boxs[mapList[1]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "SnakeT" + j;
+                int _numSnake = (int)propertiesThatChanged["numSnake"];
+                int _numLadder = (int)propertiesThatChanged["numLadder"];
+                int _numQues = (int)propertiesThatChanged["numQues"];
+                int _numQuesBat = (int)propertiesThatChanged["numQuesBat"];
+                int _numMini = (int)propertiesThatChanged["numMini"];
+                int _numMiniBat = (int)propertiesThatChanged["numMiniBat"];
 
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeSnakeHeadIcon(j);
-                boxs[mapList[1]].GetComponent<BoxController>().ChangeSnakeTailIcon(j);
-                gameController.snakes.Add(mapList[0], mapList[1]);
-                mapList.RemoveAt(1);
-                mapList.RemoveAt(0);
+                for (int j = 0; j < _numSnake; j++)
+                {
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.SnakeHead);
+                    boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "SnakeH" + j;
+
+                    boxs[mapList[1]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.SnakeTail);
+                    boxs[mapList[1]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "SnakeT" + j;
+
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeSnakeHeadIcon(j);
+                    boxs[mapList[1]].GetComponent<BoxController>().ChangeSnakeTailIcon(j);
+                    gameController.snakes.Add(mapList[0], mapList[1]);
+                    mapList.RemoveAt(1);
+                    mapList.RemoveAt(0);
+                }
+
+                for (int j = 0; j < _numLadder; j++)
+                {
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.LadderBottom);
+                    boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "LadderB" + j;
+
+                    boxs[mapList[1]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.LadderTop);
+                    boxs[mapList[1]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "LadderT" + j;
+
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeLadderIcon(j);
+                    boxs[mapList[1]].GetComponent<BoxController>().ChangeLadderIcon(j);
+                    gameController.ladders.Add(mapList[0], mapList[1]);
+                    mapList.RemoveAt(1);
+                    mapList.RemoveAt(0);
+                }
+
+                for(int j = 0; j < _numQues; j++)
+                {
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.Question);
+                    boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "Ques" + j;
+                    mapList.RemoveAt(0);
+                }
+
+                for (int j = 0; j < _numQuesBat; j++)
+                {
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.BattleQuestion);
+                    boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "BQues" + j;
+                    mapList.RemoveAt(0);
+                }
+
+                for (int j = 0; j < _numMini; j++)
+                {
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.MiniGame);
+                    boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "Mini" + j;
+                    mapList.RemoveAt(0);
+                }
+
+                for (int j = 0; j < _numMiniBat; j++)
+                {
+                    boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.BattleMiniGame);
+                    boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "BMini" + j;
+                    mapList.RemoveAt(0);
+                }
+
+                string mapListString2 = string.Join(", ", mapList.Select(x => x.ToString()).ToArray());
+                Debug.Log("Map List: " + mapListString2);
             }
-
-            for (int j = 0; j < _numLadder; j++)
-            {
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.LadderBottom);
-                boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "LadderB" + j;
-
-                boxs[mapList[1]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.LadderTop);
-                boxs[mapList[1]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "LadderT" + j;
-
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeLadderIcon(j);
-                boxs[mapList[1]].GetComponent<BoxController>().ChangeLadderIcon(j);
-                gameController.ladders.Add(mapList[0], mapList[1]);
-                mapList.RemoveAt(1);
-                mapList.RemoveAt(0);
-            }
-
-            for(int j = 0; j < _numQues; j++)
-            {
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.Question);
-                boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "Ques" + j;
-                mapList.RemoveAt(0);
-            }
-
-            for (int j = 0; j < _numQuesBat; j++)
-            {
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.BattleQuestion);
-                boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "BQues" + j;
-                mapList.RemoveAt(0);
-            }
-
-            for (int j = 0; j < _numMini; j++)
-            {
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.MiniGame);
-                boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "Mini" + j;
-                mapList.RemoveAt(0);
-            }
-
-            for (int j = 0; j < _numMiniBat; j++)
-            {
-                boxs[mapList[0]].GetComponent<BoxController>().ChangeStatus(BoxController.BoxStatus.BattleMiniGame);
-                boxs[mapList[0]].transform.GetChild(1).GetChild(1).GetComponent<Text>().text = "BMini" + j;
-                mapList.RemoveAt(0);
-            }
-
-            string mapListString2 = string.Join(", ", mapList.Select(x => x.ToString()).ToArray());
-            Debug.Log("Map List: " + mapListString2);
         }
         
     }

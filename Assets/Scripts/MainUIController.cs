@@ -23,7 +23,9 @@ public class MainUIController : MonoBehaviour
     public Button bTxt;
     public Button cTxt;
     public Button dTxt;
-    
+
+    private Coroutine myCoroutine;
+
     void Start()
     {
         statusTxt.text = "Game start";
@@ -38,7 +40,7 @@ public class MainUIController : MonoBehaviour
     {
         questionUI.SetActive(true);
         time = GameManager.Instance.timeAnswerQuestion;
-        StartCoroutine(UpdateTimer());
+        myCoroutine = StartCoroutine(UpdateTimer());
     }
 
     private IEnumerator UpdateTimer()
@@ -63,6 +65,17 @@ public class MainUIController : MonoBehaviour
         dTxt.GetComponentInChildren<Text>().text = "";
 
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+    }
+    public void Anserwed()
+    {
+        questionUI.SetActive(false);
+        questionTxt.text = "";
+        aTxt.GetComponentInChildren<Text>().text = "";
+        bTxt.GetComponentInChildren<Text>().text = "";
+        cTxt.GetComponentInChildren<Text>().text = "";
+        dTxt.GetComponentInChildren<Text>().text = "";
+
+        StopCoroutine(myCoroutine);
     }
     // Update is called once per frame
     void Update()

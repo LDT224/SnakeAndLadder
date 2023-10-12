@@ -69,7 +69,6 @@ public class MainGameController : MonoBehaviour
         {
             maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             StartCoroutine(CheckBoxMoveIn(currentPlayer, newPos));
-            Debug.Log("Player " + currentPlayer + "move to " + currentPos[currentPlayer]);
         }
         else if(newPos == GameManager.Instance.totalMap - 1)
         {
@@ -84,17 +83,17 @@ public class MainGameController : MonoBehaviour
         }
     }
 
-    private IEnumerator CheckBoxMoveIn(int player ,int pos)
+    private IEnumerator CheckBoxMoveIn(int currentPlayer ,int pos)
     {
         yield return new WaitForSeconds(1.0f); // Wait 1 sec
-        int playerInTxt = player + 1;
+        int playerInTxt = currentPlayer + 1;
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.SnakeHead)
         {
             if (snakes.ContainsKey(pos))
             {
-                currentPos[player] = snakes[pos];
-                maps[snakes[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[player]);
+                currentPos[currentPlayer] = snakes[pos];
+                maps[snakes[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             }
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in snake box";
             GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
@@ -103,8 +102,8 @@ public class MainGameController : MonoBehaviour
         {
             if (ladders.ContainsKey(pos))
             {
-                currentPos[player] = ladders[pos];
-                maps[ladders[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[player]);
+                currentPos[currentPlayer] = ladders[pos];
+                maps[ladders[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             }
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in ladder box";
             GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
@@ -124,11 +123,13 @@ public class MainGameController : MonoBehaviour
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.MiniGame)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in mini game box";
+            currentPos[currentPlayer] = pos;
             GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleMiniGame)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle mini game box";
+            currentPos[currentPlayer] = pos;
             GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else
@@ -226,7 +227,8 @@ public class MainGameController : MonoBehaviour
             answer = "";
             maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
         }
-        mainUIController.EndTime();
+        mainUIController.Anserwed();
+        GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
     // Update is called once per frame
     void Update()
@@ -246,6 +248,7 @@ public class MainGameController : MonoBehaviour
                 hit.collider.gameObject.GetComponent<DiceController>().Roll(numRoll);
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
                 Debug.Log( "roll: " + numRoll);
+                Debug.Log("Player " + currentPlayer + "move to " + currentPos[currentPlayer]);
             }
         }
     }
