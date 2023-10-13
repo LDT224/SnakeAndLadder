@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public enum GameStatus
     {
@@ -21,7 +22,6 @@ public class GameManager : MonoBehaviour
 
     //Map information
     public int timeAnswerQuestion = 30;
-    public int numPlayer = 4;
     public int totalMap = 35;
     public int numdef =2;
     public int numSnake;
@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
 
     //Dice
     public bool canRoll;
+
+    private PhotonView photonView;
+
     // Public accessor for the singleton instance
     public static GameManager Instance
     {
@@ -56,15 +59,30 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameController = GameObject.FindObjectOfType<MainGameController>();
+
+        photonView = gameObject.GetComponent<PhotonView>();
+        if (photonView == null)
+        {
+            Debug.LogError("PhotonView component is missing!");
+        }
     }
 
+    [PunRPC]
+    private void RPC_UpdateGameStatus(GameStatus currentStatus)
+    {
+        status = currentStatus;
+        Debug.LogError("STATUS: " + currentStatus);
+        handleChangeStatus();
+    }
     //Change the game status
     public void ChangeStatus(GameStatus newStatus)
     {
-        status = newStatus;
-
+        photonView.RPC("RPC_UpdateGameStatus", RpcTarget.All, newStatus);
+    }
+    private void handleChangeStatus()
+    {
         // Add additional logic or functionality based on the new status
-        switch (newStatus)
+        switch (status)
         {
             case GameStatus.Init:
                 canRoll = false;
@@ -88,7 +106,7 @@ public class GameManager : MonoBehaviour
                 // Handle game over or player death
                 break;
         }
-        Debug.Log("Status change to: " + newStatus);
+        Debug.LogError("Status change to: " + status);
     }
     //Change map information
     public void ChangeTypeMap(int type)

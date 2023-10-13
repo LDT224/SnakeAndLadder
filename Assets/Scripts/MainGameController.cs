@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class MainGameController : MonoBehaviour
+public class MainGameController : MonoBehaviourPunCallbacks
 {
     public int numRoll;
     public int currentPlayer = 0;
@@ -13,7 +14,6 @@ public class MainGameController : MonoBehaviour
     GameObject playerPrefab;
     [SerializeField]
     Color[] playerColor;
-    private int numPlayer;
     private int[] currentPos = new int[] { 0, 0, 0, 0 };
     private List<GameObject> maps = new List<GameObject>();
     public IDictionary<int,int> snakes = new Dictionary<int,int>();
@@ -35,14 +35,13 @@ public class MainGameController : MonoBehaviour
         mapController = FindObjectOfType<MapController>();
         maps = mapController.boxs;
 
-        numPlayer = GameManager.Instance.numPlayer;
         SpawnPlayer();
         SetCurrentPlayer();
     }
 
     public void SpawnPlayer()
     {
-        for (int i = 0; i < numPlayer; i++)
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             GameObject player = Instantiate(playerPrefab,Vector3.zero, Quaternion.identity);
             players.Add(player);
