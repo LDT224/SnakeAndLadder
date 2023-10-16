@@ -26,6 +26,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     private MapController mapController;
     private MainUIController mainUIController;
+
+    private string localPlayerID;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
         mainUIController = FindObjectOfType<MainUIController>();
         mapController = FindObjectOfType<MapController>();
         maps = mapController.boxs;
+
+        localPlayerID = PhotonNetwork.LocalPlayer.UserId;
 
         SpawnPlayer();
         SetCurrentPlayer();
@@ -51,7 +55,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
     }
     public void SetCurrentPlayer()
     {
-        mainUIController.ChangeTurnTxt(currentPlayer +1);
+        mainUIController.ChangeTurnTxt(currentPlayer);
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.Play);
     }
 
@@ -235,6 +239,11 @@ public class MainGameController : MonoBehaviourPunCallbacks
         if (GameManager.Instance.status == GameManager.GameStatus.InTurn) return;
         if (Input.GetMouseButtonDown(0))
         {
+            if (localPlayerID != PhotonNetwork.PlayerList[currentPlayer].UserId)
+            {
+                mainUIController.statusTxt.text = "It's not your turn!";
+                return;
+            }
             Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousepos2d = new Vector2(mousepos.x, mousepos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousepos2d, Vector2.zero);
@@ -247,7 +256,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 hit.collider.gameObject.GetComponent<DiceController>().Roll(numRoll);
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
                 Debug.Log( "roll: " + numRoll);
-                Debug.Log("Player " + currentPlayer + "move to " + currentPos[currentPlayer]);
+                Debug.Log(PhotonNetwork.PlayerList[currentPlayer].NickName + " move to " + currentPos[currentPlayer]);
             }
         }
     }

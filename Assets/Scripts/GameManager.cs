@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void RPC_UpdateGameStatus(GameStatus currentStatus)
     {
         status = currentStatus;
-        Debug.LogError("STATUS: " + currentStatus);
         handleChangeStatus();
     }
     //Change the game status
@@ -106,7 +105,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 // Handle game over or player death
                 break;
         }
-        Debug.LogError("Status change to: " + status);
     }
     //Change map information
     public void ChangeTypeMap(int type)

@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DiceController : MonoBehaviour
+public class DiceController : MonoBehaviourPunCallbacks
 {
     private int roll;
     [SerializeField]
@@ -30,12 +31,19 @@ public class DiceController : MonoBehaviour
         //Roll dice available
         mainGameController.PlayerMove(mainGameController.currentPlayer, mainGameController.numRoll);
     }
+
+    [PunRPC]
+    void RPC_RollAnimation()
+    {
+        Animator animator = GetComponent<Animator>();
+        animator.Play("Dice Roll", -1, 0f);
+    }
+
     public void Roll(int temp)
     {
         roll = temp;
-        Animator animator = GetComponent<Animator>();
-        animator.Play("Dice Roll", -1, 0f);
 
+        photonView.RPC("RPC_RollAnimation", RpcTarget.All);
     }
     // Update is called once per frame
     void Update()

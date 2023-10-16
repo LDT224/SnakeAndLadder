@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class MainUIController : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class MainUIController : MonoBehaviour
     
     public void ChangeTurnTxt(int currentPlayer)
     {
-        turnTxt.text = "Player " + currentPlayer + " turn";
+        turnTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " turn";
     }
 
     public void OnQuestion()
