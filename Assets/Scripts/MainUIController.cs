@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System.Linq;
 
 public class MainUIController : MonoBehaviour
 {
@@ -20,10 +21,10 @@ public class MainUIController : MonoBehaviour
     [SerializeField]
     private GameObject questionUI;
     public Text questionTxt;
-    public Button aTxt;
-    public Button bTxt;
-    public Button cTxt;
-    public Button dTxt;
+    public Button aBtn;
+    public Button bBtn;
+    public Button cBtn;
+    public Button dBtn;
 
     private Coroutine myCoroutine;
 
@@ -37,11 +38,30 @@ public class MainUIController : MonoBehaviour
         turnTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " turn";
     }
 
-    public void OnQuestion()
+    public void OnQuestion(List<string> playerInTurn)
     {
         questionUI.SetActive(true);
+
+        string currentPlayerId = PhotonNetwork.LocalPlayer.UserId;
+
+        if (playerInTurn.Contains(currentPlayerId))
+        {
+            aBtn.interactable = true;
+            bBtn.interactable = true;
+            cBtn.interactable = true;
+            dBtn.interactable = true;
+            Debug.Log(playerInTurn);
+        }
+        else
+        {
+            aBtn.interactable = false;
+            bBtn.interactable = false;
+            cBtn.interactable = false;
+            dBtn.interactable = false;
+        }
         time = GameManager.Instance.timeAnswerQuestion;
         myCoroutine = StartCoroutine(UpdateTimer());
+
     }
 
     private IEnumerator UpdateTimer()
@@ -60,21 +80,21 @@ public class MainUIController : MonoBehaviour
     {
         questionUI.SetActive(false);
         questionTxt.text = "";
-        aTxt.GetComponentInChildren<Text>().text = "";
-        bTxt.GetComponentInChildren<Text>().text = "";
-        cTxt.GetComponentInChildren<Text>().text = "";
-        dTxt.GetComponentInChildren<Text>().text = "";
+        aBtn.GetComponentInChildren<Text>().text = "";
+        bBtn.GetComponentInChildren<Text>().text = "";
+        cBtn.GetComponentInChildren<Text>().text = "";
+        dBtn.GetComponentInChildren<Text>().text = "";
 
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
-    public void Anserwed()
+    public void Answer()
     {
         questionUI.SetActive(false);
         questionTxt.text = "";
-        aTxt.GetComponentInChildren<Text>().text = "";
-        bTxt.GetComponentInChildren<Text>().text = "";
-        cTxt.GetComponentInChildren<Text>().text = "";
-        dTxt.GetComponentInChildren<Text>().text = "";
+        aBtn.GetComponentInChildren<Text>().text = "";
+        bBtn.GetComponentInChildren<Text>().text = "";
+        cBtn.GetComponentInChildren<Text>().text = "";
+        dBtn.GetComponentInChildren<Text>().text = "";
 
         StopCoroutine(myCoroutine);
     }

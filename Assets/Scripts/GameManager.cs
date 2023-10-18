@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     //Dice
     public bool canRoll;
 
-    private PhotonView photonView;
 
     // Public accessor for the singleton instance
     public static GameManager Instance
@@ -60,11 +59,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         gameController = GameObject.FindObjectOfType<MainGameController>();
 
-        photonView = gameObject.GetComponent<PhotonView>();
-        if (photonView == null)
-        {
-            Debug.LogError("PhotonView component is missing!");
-        }
     }
 
     [PunRPC]

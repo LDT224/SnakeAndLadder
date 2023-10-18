@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System.Linq;
 
 public class MainGameController : MonoBehaviourPunCallbacks
 {
@@ -65,7 +66,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
         SetCurrentPlayer();
     }
 
-    public void PlayerMove(int currentPlayer,int numRoll)
+    [PunRPC]
+    void RPC_PlayerMove(int currentPlayer,int numRoll)
     {
         int newPos = currentPos[currentPlayer] + numRoll;
         if(newPos < GameManager.Instance.totalMap -1)
@@ -83,13 +85,20 @@ public class MainGameController : MonoBehaviourPunCallbacks
         else
         {
             Debug.Log("Over map =>> reRoll");
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
     }
 
+    public void PlayerMove(int currentPlayer, int numRoll)
+    {
+        photonView.RPC("RPC_PlayerMove", RpcTarget.All, currentPlayer, numRoll);
+    }
     private IEnumerator CheckBoxMoveIn(int currentPlayer ,int pos)
     {
         yield return new WaitForSeconds(1.0f); // Wait 1 sec
         int playerInTxt = currentPlayer + 1;
+        List<string> playerInTurn = new List<string>();
+        playerInTurn.Add(PhotonNetwork.PlayerList[currentPlayer].UserId);
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.SnakeHead)
         {
@@ -115,13 +124,23 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in question box";
             GetQuestionData();
-            mainUIController.OnQuestion();
+            mainUIController.OnQuestion(playerInTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle question box";
             GetQuestionData();
-            mainUIController.OnQuestion();
+            while (true)
+            {
+                int ranPlayer = Random.Range(0, PhotonNetwork.PlayerList.Count());
+
+                if (ranPlayer != currentPlayer)
+                {
+                    playerInTurn.Add(PhotonNetwork.PlayerList[ranPlayer].UserId);
+                    break;
+                }
+            }
+            mainUIController.OnQuestion(playerInTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.MiniGame)
         {
@@ -159,48 +178,48 @@ public class MainGameController : MonoBehaviourPunCallbacks
                         mainUIController.questionTxt.text = "Question: " + data[i + 1];
                         answer = data[i + 2];
                         List<int> answerPicked = new List<int>();
-                        while (mainUIController.aTxt.GetComponentInChildren<Text>().text == "")
+                        while (mainUIController.aBtn.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.aTxt.GetComponentInChildren<Text>().text = "A: " + data[i + ran];
+                                mainUIController.aBtn.GetComponentInChildren<Text>().text = "A: " + data[i + ran];
                                 answerPicked.Add(ran);
                             }
                             else
                                 continue;
                         }
 
-                        while (mainUIController.bTxt.GetComponentInChildren<Text>().text == "")
+                        while (mainUIController.bBtn.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.bTxt.GetComponentInChildren<Text>().text = "B: " + data[i + ran];
+                                mainUIController.bBtn.GetComponentInChildren<Text>().text = "B: " + data[i + ran];
                                 answerPicked.Add(ran);
                             }
                             else
                                 continue;
                         }
 
-                        while (mainUIController.cTxt.GetComponentInChildren<Text>().text == "")
+                        while (mainUIController.cBtn.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.cTxt.GetComponentInChildren<Text>().text = "C: " + data[i + ran];
+                                mainUIController.cBtn.GetComponentInChildren<Text>().text = "C: " + data[i + ran];
                                 answerPicked.Add(ran);
                             }
                             else
                                 continue;
                         }
 
-                        while (mainUIController.dTxt.GetComponentInChildren<Text>().text == "")
+                        while (mainUIController.dBtn.GetComponentInChildren<Text>().text == "")
                         {
                             int ran = Random.Range(2, 6);
                             if (answerPicked.Contains(ran) == false)
                             {
-                                mainUIController.dTxt.GetComponentInChildren<Text>().text = "D: " + data[i + ran];
+                                mainUIController.dBtn.GetComponentInChildren<Text>().text = "D: " + data[i + ran];
                                 answerPicked.Clear();
                             }
                             else
@@ -230,7 +249,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
             answer = "";
             maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
         }
-        mainUIController.Anserwed();
+        mainUIController.Answer();
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
     // Update is called once per frame
@@ -256,7 +275,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 hit.collider.gameObject.GetComponent<DiceController>().Roll(numRoll);
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
                 Debug.Log( "roll: " + numRoll);
-                Debug.Log(PhotonNetwork.PlayerList[currentPlayer].NickName + " move to " + currentPos[currentPlayer]);
+                Debug.Log(PhotonNetwork.PlayerList[currentPlayer].NickName + " move to " + currentPos[currentPlayer] + numRoll);
             }
         }
     }
