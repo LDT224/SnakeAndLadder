@@ -33,17 +33,16 @@ public class DiceController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void RPC_RollAnimation()
+    void RPC_RollAnimation(int temp)
     {
+        roll = temp;
         Animator animator = GetComponent<Animator>();
         animator.Play("Dice Roll", -1, 0f);
     }
 
     public void Roll(int temp)
     {
-        roll = temp;
-
-        photonView.RPC("RPC_RollAnimation", RpcTarget.All);
+        photonView.RPC("RPC_RollAnimation", RpcTarget.All, temp);
     }
     // Update is called once per frame
     void Update()
