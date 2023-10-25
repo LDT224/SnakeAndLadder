@@ -79,18 +79,21 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             currentPos[currentPlayer] = newPos;
             maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
-            GameManager.Instance.ChangeStatus(GameManager.GameStatus.Finish);
+            if(localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GameManager.Instance.ChangeStatus(GameManager.GameStatus.Finish);
             Debug.Log("Player: " + currentPlayer + "WINNNNN!!!!");
         }
         else
         {
             Debug.Log("Over map =>> reRoll");
-            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
     }
 
-    public void PlayerMove(int currentPlayer, int numRoll)
+    private IEnumerator PlayerMove(int currentPlayer, int numRoll)
     {
+        yield return new WaitForSeconds(2f);
         photonView.RPC("RPC_PlayerMove", RpcTarget.All, currentPlayer, numRoll);
     }
     private IEnumerator CheckBoxMoveIn(int currentPlayer ,int pos)
@@ -108,7 +111,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 maps[snakes[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             }
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in snake box";
-            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.LadderBottom)
         {
@@ -118,7 +122,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 maps[ladders[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             }
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in ladder box";
-            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
         {
@@ -146,18 +151,21 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in mini game box";
             currentPos[currentPlayer] = pos;
-            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleMiniGame)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle mini game box";
             currentPos[currentPlayer] = pos;
-            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else
         {
             currentPos[currentPlayer] = pos;
-            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
     }
 
@@ -273,7 +281,9 @@ public class MainGameController : MonoBehaviourPunCallbacks
             {
                 numRoll = 1 + Random.Range(0, 6);
                 hit.collider.gameObject.GetComponent<DiceController>().Roll(numRoll);
-                GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
+                if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                    GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
+                StartCoroutine(PlayerMove(currentPlayer, numRoll));
                 Debug.Log( "roll: " + numRoll);
                 Debug.Log(PhotonNetwork.PlayerList[currentPlayer].NickName + " move to " + currentPos[currentPlayer] + numRoll);
             }

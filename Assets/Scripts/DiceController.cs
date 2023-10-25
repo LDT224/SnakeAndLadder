@@ -27,9 +27,6 @@ public class DiceController : MonoBehaviourPunCallbacks
     {
         SpriteRenderer render = GetComponent<SpriteRenderer>();
         render.sprite = dice[roll-1];
-
-        //Roll dice available
-        mainGameController.PlayerMove(mainGameController.currentPlayer, mainGameController.numRoll);
     }
 
     [PunRPC]
