@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using System.Linq;
 
-public class MainUIController : MonoBehaviour
+public class MainUIController : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
     [SerializeField]
@@ -27,30 +27,37 @@ public class MainUIController : MonoBehaviour
     public Button dBtn;
 
     private Coroutine myCoroutine;
+    private List<string> playerInTurn;
+    private string localPlayerID;
+    private int currentPlayer;
+
+    private MainGameController gameController;
 
     void Start()
     {
         statusTxt.text = "Game start";
+        gameController = FindObjectOfType<MainGameController>();
     }
     
-    public void ChangeTurnTxt(int currentPlayer)
+    public void ChangeTurnTxt(int _currentPlayer)
     {
-        turnTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " turn";
+        currentPlayer = _currentPlayer;
+        turnTxt.text = PhotonNetwork.PlayerList[_currentPlayer].NickName + " turn";
     }
 
-    public void OnQuestion(List<string> playerInTurn)
+    public void OnQuestion(List<string> _playerInTurn)
     {
         questionUI.SetActive(true);
 
-        string currentPlayerId = PhotonNetwork.LocalPlayer.UserId;
+        localPlayerID = PhotonNetwork.LocalPlayer.UserId;
+        playerInTurn = new List<string>(_playerInTurn);
 
-        if (playerInTurn.Contains(currentPlayerId))
+        if (playerInTurn.Contains(localPlayerID))
         {
             aBtn.interactable = true;
             bBtn.interactable = true;
             cBtn.interactable = true;
             dBtn.interactable = true;
-            Debug.Log(playerInTurn);
         }
         else
         {
@@ -84,11 +91,14 @@ public class MainUIController : MonoBehaviour
         bBtn.GetComponentInChildren<Text>().text = "";
         cBtn.GetComponentInChildren<Text>().text = "";
         dBtn.GetComponentInChildren<Text>().text = "";
+        gameController.WrongAnswer();
 
-        GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+        if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+            GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
 
-    public void Answered()
+    [PunRPC]
+    void RPC_Answered()
     {
         questionUI.SetActive(false);
         questionTxt.text = "";
@@ -98,6 +108,10 @@ public class MainUIController : MonoBehaviour
         dBtn.GetComponentInChildren<Text>().text = "";
 
         StopCoroutine(myCoroutine);
+    }
+    public void Answered()
+    {
+        photonView.RPC("RPC_Answered", RpcTarget.All);
     }
     // Update is called once per frame
     void Update()

@@ -45,6 +45,9 @@ MonoBehaviour:
   - RPC_PlayerMove
   - Answered
   - RPC_SendQuestionData
+  - RPC_RightAnswer
+  - RPC_WrongAnswer
+  - RPC_Answered
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

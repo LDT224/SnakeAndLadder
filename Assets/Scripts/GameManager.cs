@@ -145,6 +145,19 @@ public class GameManager : MonoBehaviourPunCallbacks
                 minMiniBat = 3;
                 maxMiniBat = 4;
                 break;
+
+            //case 3:
+            //    numSnake = 0;
+            //    numLadder = 0;
+            //    minQues = 15;
+            //    maxQues = 20;
+            //    minQuesBat = 0;
+            //    maxQuesBat = 0;
+            //    minMini = 0;
+            //    maxMini = 0;
+            //    minMiniBat = 0;
+            //    maxMiniBat = 0;
+            //    break;
         }
     }
 

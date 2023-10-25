@@ -191,6 +191,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                     if (data[i] == r.ToString())
                     {
                         mainUIController.questionTxt.text = "Question: " + data[i + 1];
+                        question = "Question: " + data[i + 1];
                         answer = data[i + 2];
                         List<int> answerPicked = new List<int>();
                         while (mainUIController.aBtn.GetComponentInChildren<Text>().text == "")
@@ -273,15 +274,37 @@ public class MainGameController : MonoBehaviourPunCallbacks
             Debug.Log("RIGHT!!!!!");
             answer = "";
             currentPos[currentPlayer] = currentPos[currentPlayer] + numRoll;
+            RightAnswer(currentPos[currentPlayer]);
         }
         else
         {
             Debug.Log("WRONG!!!");
             Debug.Log(answer);
             answer = "";
-            maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
+            WrongAnswer();
         }
+        mainUIController.Answered();
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
+    }
+
+    public void RightAnswer(int newPos)
+    {
+        photonView.RPC("RPC_RightAnswer", RpcTarget.Others, newPos);
+    }
+    [PunRPC]
+    void RPC_RightAnswer(int newPos)
+    {
+        currentPos[currentPlayer] = newPos;
+    }
+
+    public void WrongAnswer()
+    {
+        photonView.RPC("RPC_WrongAnswer",RpcTarget.All);
+    }
+    [PunRPC]
+    void RPC_WrongAnswer()
+    {
+        maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
     }
     // Update is called once per frame
     void Update()
@@ -307,8 +330,6 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                     GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
                 StartCoroutine(PlayerMove(currentPlayer, numRoll));
-                Debug.Log( "roll: " + numRoll);
-                Debug.Log(PhotonNetwork.PlayerList[currentPlayer].NickName + " move to " + currentPos[currentPlayer] + numRoll);
             }
         }
     }
