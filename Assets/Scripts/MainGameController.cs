@@ -128,13 +128,15 @@ public class MainGameController : MonoBehaviourPunCallbacks
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in question box";
-            GetQuestionData();
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GetQuestionData();
             mainUIController.OnQuestion(playerInTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
         {
             mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle question box";
-            GetQuestionData();
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+                GetQuestionData();
             while (true)
             {
                 int ranPlayer = Random.Range(0, PhotonNetwork.PlayerList.Count());
@@ -171,6 +173,11 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     public void GetQuestionData()
     {
+        string a = "";
+        string b = "";
+        string c = "";
+        string d = "";
+        string question = "";
         data = listQuestion.text.Split(new string[] { ";", "\n" }, System.StringSplitOptions.None);
 
         while(mainUIController.questionTxt.text == "")
@@ -192,6 +199,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                             if (answerPicked.Contains(ran) == false)
                             {
                                 mainUIController.aBtn.GetComponentInChildren<Text>().text = "A: " + data[i + ran];
+                                a = "A: " + data[i + ran];
                                 answerPicked.Add(ran);
                             }
                             else
@@ -204,6 +212,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                             if (answerPicked.Contains(ran) == false)
                             {
                                 mainUIController.bBtn.GetComponentInChildren<Text>().text = "B: " + data[i + ran];
+                                b = "B: " + data[i + ran];
                                 answerPicked.Add(ran);
                             }
                             else
@@ -216,6 +225,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                             if (answerPicked.Contains(ran) == false)
                             {
                                 mainUIController.cBtn.GetComponentInChildren<Text>().text = "C: " + data[i + ran];
+                                c = "C: " + data[i + ran];
                                 answerPicked.Add(ran);
                             }
                             else
@@ -228,6 +238,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                             if (answerPicked.Contains(ran) == false)
                             {
                                 mainUIController.dBtn.GetComponentInChildren<Text>().text = "D: " + data[i + ran];
+                                d = "D: " + data[i + ran];
                                 answerPicked.Clear();
                             }
                             else
@@ -240,6 +251,19 @@ public class MainGameController : MonoBehaviourPunCallbacks
             else
                 continue;
         }
+
+        photonView.RPC("RPC_SendQuestionData", RpcTarget.Others, a, b, c, d, question, answer);
+    }
+
+    [PunRPC]
+    void RPC_SendQuestionData(string a, string b, string c, string d, string question, string _answer)
+    {
+        mainUIController.aBtn.GetComponentInChildren<Text>().text = a;
+        mainUIController.bBtn.GetComponentInChildren<Text>().text = b;
+        mainUIController.cBtn.GetComponentInChildren<Text>().text = c;
+        mainUIController.dBtn.GetComponentInChildren<Text>().text = d;
+        mainUIController.questionTxt.text = question;
+        answer = _answer;
     }
 
     public void CheckAnswer(Button button)
@@ -257,7 +281,6 @@ public class MainGameController : MonoBehaviourPunCallbacks
             answer = "";
             maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
         }
-        mainUIController.Answer();
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
     // Update is called once per frame

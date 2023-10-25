@@ -43,6 +43,8 @@ MonoBehaviour:
   - RPC_RollDice
   - RPC_RollAnimation
   - RPC_PlayerMove
+  - Answered
+  - RPC_SendQuestionData
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

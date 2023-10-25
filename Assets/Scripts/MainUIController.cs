@@ -87,7 +87,8 @@ public class MainUIController : MonoBehaviour
 
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
-    public void Answer()
+
+    public void Answered()
     {
         questionUI.SetActive(false);
         questionTxt.text = "";
