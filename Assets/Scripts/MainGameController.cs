@@ -272,17 +272,29 @@ public class MainGameController : MonoBehaviourPunCallbacks
         if(button.GetComponentInChildren<Text>().text.Substring(3) == answer)
         {
             Debug.Log("RIGHT!!!!!");
-            answer = "";
-            currentPos[currentPlayer] = currentPos[currentPlayer] + numRoll;
-            RightAnswer(currentPos[currentPlayer]);
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+            {
+                currentPos[currentPlayer] = currentPos[currentPlayer] + numRoll;
+                RightAnswer(currentPos[currentPlayer]);
+            }
+            else
+                WrongAnswer();
         }
         else
         {
             Debug.Log("WRONG!!!");
             Debug.Log(answer);
-            answer = "";
-            WrongAnswer();
+            if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
+            {
+                WrongAnswer();
+            }
+            else
+            {
+                currentPos[currentPlayer] = currentPos[currentPlayer] + numRoll;
+                RightAnswer(currentPos[currentPlayer]);
+            }
         }
+        answer = "";
         mainUIController.Answered();
         GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
     }
