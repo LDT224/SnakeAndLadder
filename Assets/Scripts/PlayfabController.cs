@@ -99,7 +99,10 @@ public class PlayfabController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         userName = null;
         if(result.InfoResultPayload.PlayerProfile != null)
+        {
             userName = result.InfoResultPayload.PlayerProfile.DisplayName;
+            PlayerPrefs.SetString("UserName", userName);
+        }
     }
 
 
