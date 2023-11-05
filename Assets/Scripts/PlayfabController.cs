@@ -23,6 +23,7 @@ public class PlayfabController : MonoBehaviour
     [SerializeField] private GameObject registerPanel;
 
     public string userName;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -159,6 +160,33 @@ public class PlayfabController : MonoBehaviour
     void OnLeaderboardUpdate(UpdatePlayerStatisticsResult result)
     {
         Debug.Log("Send score successfull");
+    }
+
+    public void GetLeaderboard()
+    {
+        var request = new GetLeaderboardRequest
+        {
+            StatisticName = "Score",
+            StartPosition = 0,
+            MaxResultsCount = 5
+        };
+        PlayFabClientAPI.GetLeaderboard(request, OnLeaderboardGet, OnError, null);
+    }
+    void OnLeaderboardGet(GetLeaderboardResult result)
+    {
+        foreach (Transform trans in LobbyController.Instance.leadboardList)
+        {
+            Destroy(trans.gameObject);
+        }
+
+        foreach (var item in result.Leaderboard)
+        {
+            GameObject newItem = Instantiate(LobbyController.Instance.leadboardItem, LobbyController.Instance.leadboardList);
+            Text[] texts = newItem.GetComponentsInChildren<Text>();
+            texts[0].text = item.Position.ToString();
+            texts[1].text = item.DisplayName.ToString();
+            texts[2].text = item.StatValue.ToString();
+        }
     }
 
     void OnError(PlayFabError error)

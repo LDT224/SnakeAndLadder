@@ -36,6 +36,8 @@ public class LobbyController : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject startBtn;
 
+    public GameObject leadboardItem;
+    public Transform leadboardList;
 
     // Start is called before the first frame update
     private void Awake()
@@ -192,8 +194,13 @@ public class LobbyController : MonoBehaviourPunCallbacks
     }
     public void StartGame()
     {
-        PhotonNetwork.LoadLevel("Gameplay");
+        if(PhotonNetwork.PlayerList.Length > 1)
+            PhotonNetwork.LoadLevel("Gameplay");
+    }
 
+    public void GetLeaderboard()
+    {
+        PlayfabController.instance.GetLeaderboard();
     }
     // Update is called once per frame
     void Update()
