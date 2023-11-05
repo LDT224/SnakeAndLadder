@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class MainUIController : MonoBehaviourPunCallbacks
 {
@@ -19,12 +20,22 @@ public class MainUIController : MonoBehaviourPunCallbacks
     private Image timerFillImg;
 
     [SerializeField]
-    private GameObject questionUI;
+    private GameObject questionPanel;
     public Text questionTxt;
     public Button aBtn;
     public Button bBtn;
     public Button cBtn;
     public Button dBtn;
+
+    [SerializeField]
+    private GameObject gameOverPanel;
+    [SerializeField]
+    private Text resultTxt;
+    public Text scoreTxt;
+    [SerializeField]
+    private Text totalScoreTxt;
+    [SerializeField]
+    private Text rankTxt;
 
     private Coroutine myCoroutine;
     private List<string> playerInTurn;
@@ -47,7 +58,7 @@ public class MainUIController : MonoBehaviourPunCallbacks
 
     public void OnQuestion(List<string> _playerInTurn)
     {
-        questionUI.SetActive(true);
+        questionPanel.SetActive(true);
 
         localPlayerID = PhotonNetwork.LocalPlayer.UserId;
         playerInTurn = new List<string>(_playerInTurn);
@@ -85,7 +96,7 @@ public class MainUIController : MonoBehaviourPunCallbacks
     }
     public void EndTime()
     {
-        questionUI.SetActive(false);
+        questionPanel.SetActive(false);
         questionTxt.text = "";
         aBtn.GetComponentInChildren<Text>().text = "";
         bBtn.GetComponentInChildren<Text>().text = "";
@@ -100,7 +111,7 @@ public class MainUIController : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_Answered()
     {
-        questionUI.SetActive(false);
+        questionPanel.SetActive(false);
         questionTxt.text = "";
         aBtn.GetComponentInChildren<Text>().text = "";
         bBtn.GetComponentInChildren<Text>().text = "";
@@ -112,6 +123,31 @@ public class MainUIController : MonoBehaviourPunCallbacks
     public void Answered()
     {
         photonView.RPC("RPC_Answered", RpcTarget.All);
+    }
+
+    public void WinMatch()
+    {
+        Color32 endcolor = new Color32(255, 127, 119, 255);
+        gameOverPanel.SetActive(true);
+        resultTxt.color = endcolor;
+        scoreTxt.color = endcolor;
+        totalScoreTxt.color = endcolor;
+        rankTxt.color = endcolor;
+    }
+    public void LoseMatch()
+    {
+        Color32 endcolor = new Color32(119, 211, 255, 255);
+        gameOverPanel.SetActive(true);
+        resultTxt.color = endcolor;
+        scoreTxt.color = endcolor;
+        totalScoreTxt.color = endcolor;
+        rankTxt.color = endcolor;
+
+        resultTxt.text = "You Lose";
+    }
+    public void BackToLobby()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
     // Update is called once per frame
     void Update()

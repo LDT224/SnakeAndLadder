@@ -140,6 +140,27 @@ public class PlayfabController : MonoBehaviour
     {
         PlayerPrefs.SetString("UserName", result.DisplayName);
     }
+
+    public void SendLeaderboard(int score)
+    {
+        var request = new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate>
+            {
+                new StatisticUpdate
+                {
+                    StatisticName = "Score",
+                    Value = score
+                }
+            }
+        };
+        PlayFabClientAPI.UpdatePlayerStatistics(request, OnLeaderboardUpdate, OnError, null);
+    }
+    void OnLeaderboardUpdate(UpdatePlayerStatisticsResult result)
+    {
+        Debug.Log("Send score successfull");
+    }
+
     void OnError(PlayFabError error)
     {
         registerMessage.text = error.ErrorMessage;

@@ -29,6 +29,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
     private MainUIController mainUIController;
 
     private string localPlayerID;
+
+    private int numberOfDiceRolls;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         SpawnPlayer();
         SetCurrentPlayer();
+
+        numberOfDiceRolls = 0;
     }
 
     public void SpawnPlayer()
@@ -81,6 +85,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
             maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             if(localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.Finish);
+            EndMatch(currentPlayer);
             Debug.Log("Player: " + currentPlayer + "WINNNNN!!!!");
         }
         else
@@ -318,10 +323,32 @@ public class MainGameController : MonoBehaviourPunCallbacks
     {
         maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
     }
+
+    public void EndMatch(int winner)
+    {
+        if (localPlayerID == PhotonNetwork.PlayerList[winner].UserId)
+        {
+            mainUIController.WinMatch();
+            int score = 100 - numberOfDiceRolls;
+            mainUIController.scoreTxt.text = "+ " + score;
+            PlayfabController.instance.SendLeaderboard(score);
+        }
+        else
+        {
+            mainUIController.LoseMatch();
+            int score = GameManager.Instance.totalMap - currentPos[PhotonNetwork.LocalPlayer.ActorNumber - 1] - 1;
+            mainUIController.scoreTxt.text = "- " + score;
+            PlayfabController.instance.SendLeaderboard(score * -1);
+        }
+    }
+
+    public void calculateScore()
+    {
+    }
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.status == GameManager.GameStatus.InTurn) return;
+        if (GameManager.Instance.canRoll == false) return;
         if (Input.GetMouseButtonDown(0))
         {
             if (localPlayerID != PhotonNetwork.PlayerList[currentPlayer].UserId)
@@ -339,9 +366,10 @@ public class MainGameController : MonoBehaviourPunCallbacks
             {
                 numRoll = 1 + Random.Range(0, 6);
                 hit.collider.gameObject.GetComponent<DiceController>().Roll(numRoll);
-                if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
-                    GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
                 StartCoroutine(PlayerMove(currentPlayer, numRoll));
+                if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId && GameManager.Instance.status != GameManager.GameStatus.Finish)
+                    GameManager.Instance.ChangeStatus(GameManager.GameStatus.InTurn);
+                numberOfDiceRolls++;
             }
         }
     }

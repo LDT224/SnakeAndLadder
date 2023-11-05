@@ -151,8 +151,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 numLadder = 0;
                 minQues = 0;
                 maxQues = 0;
-                minQuesBat = 15;
-                maxQuesBat = 20;
+                minQuesBat = 0;
+                maxQuesBat = 0;
                 minMini = 0;
                 maxMini = 0;
                 minMiniBat = 0;
