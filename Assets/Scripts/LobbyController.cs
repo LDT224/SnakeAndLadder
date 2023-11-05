@@ -202,6 +202,11 @@ public class LobbyController : MonoBehaviourPunCallbacks
     {
         PlayfabController.instance.GetLeaderboard();
     }
+
+    public void GetLeaderboardAroundPlayer()
+    {
+        PlayfabController.instance.GetLeaderboardAroundPlayer();
+    }
     // Update is called once per frame
     void Update()
     {

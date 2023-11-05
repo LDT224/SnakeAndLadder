@@ -23,6 +23,7 @@ public class PlayfabController : MonoBehaviour
     [SerializeField] private GameObject registerPanel;
 
     public string userName;
+    public string loginID;
 
     // Start is called before the first frame update
 
@@ -96,6 +97,7 @@ public class PlayfabController : MonoBehaviour
     
     void OnLoginSuccess(LoginResult result)
     {
+        loginID = result.PlayFabId;
         loginMessage.text = "Login successfull";
         SceneManager.LoadScene("MainMenu");
         userName = null;
@@ -186,6 +188,39 @@ public class PlayfabController : MonoBehaviour
             texts[0].text = item.Position.ToString();
             texts[1].text = item.DisplayName.ToString();
             texts[2].text = item.StatValue.ToString();
+        }
+    }
+
+    public void GetLeaderboardAroundPlayer()
+    {
+        var request = new GetLeaderboardAroundPlayerRequest
+        {
+            StatisticName = "Score",
+            MaxResultsCount = 5
+        };
+        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, OnLeaderboardAroundPlayer, OnError, null);
+    }
+    void OnLeaderboardAroundPlayer(GetLeaderboardAroundPlayerResult result)
+    {
+        foreach (Transform trans in LobbyController.Instance.leadboardList)
+        {
+            Destroy(trans.gameObject);
+        }
+
+        foreach (var item in result.Leaderboard)
+        {
+            GameObject newItem = Instantiate(LobbyController.Instance.leadboardItem, LobbyController.Instance.leadboardList);
+            Text[] texts = newItem.GetComponentsInChildren<Text>();
+            texts[0].text = item.Position.ToString();
+            texts[1].text = item.DisplayName.ToString();
+            texts[2].text = item.StatValue.ToString();
+
+            if(item.PlayFabId == loginID)
+            {
+                texts[0].color = new Color32(8, 245, 190, 255);
+                texts[1].color = new Color32(8, 245, 190, 255);
+                texts[2].color = new Color32(8, 245, 190, 255);
+            }
         }
     }
 

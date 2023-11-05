@@ -85,7 +85,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
             maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             if(localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.Finish);
-            EndMatch(currentPlayer);
+            StartCoroutine(EndMatch(currentPlayer));
             Debug.Log("Player: " + currentPlayer + "WINNNNN!!!!");
         }
         else
@@ -324,8 +324,9 @@ public class MainGameController : MonoBehaviourPunCallbacks
         maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
     }
 
-    public void EndMatch(int winner)
+    IEnumerator EndMatch(int winner)
     {
+        yield return new WaitForSeconds(1.5f);
         if (localPlayerID == PhotonNetwork.PlayerList[winner].UserId)
         {
             mainUIController.WinMatch();
