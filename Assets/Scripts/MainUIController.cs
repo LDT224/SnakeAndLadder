@@ -32,10 +32,8 @@ public class MainUIController : MonoBehaviourPunCallbacks
     [SerializeField]
     private Text resultTxt;
     public Text scoreTxt;
-    [SerializeField]
-    private Text totalScoreTxt;
-    [SerializeField]
-    private Text rankTxt;
+    public Text totalScoreTxt;
+    public Text rankTxt;
 
     private Coroutine myCoroutine;
     private List<string> playerInTurn;

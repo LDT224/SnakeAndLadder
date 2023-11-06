@@ -185,7 +185,7 @@ public class PlayfabController : MonoBehaviour
         {
             GameObject newItem = Instantiate(LobbyController.Instance.leadboardItem, LobbyController.Instance.leadboardList);
             Text[] texts = newItem.GetComponentsInChildren<Text>();
-            texts[0].text = item.Position.ToString();
+            texts[0].text = (item.Position + 1).ToString();
             texts[1].text = item.DisplayName.ToString();
             texts[2].text = item.StatValue.ToString();
         }
@@ -211,7 +211,7 @@ public class PlayfabController : MonoBehaviour
         {
             GameObject newItem = Instantiate(LobbyController.Instance.leadboardItem, LobbyController.Instance.leadboardList);
             Text[] texts = newItem.GetComponentsInChildren<Text>();
-            texts[0].text = item.Position.ToString();
+            texts[0].text = (item.Position + 1).ToString();
             texts[1].text = item.DisplayName.ToString();
             texts[2].text = item.StatValue.ToString();
 
@@ -224,6 +224,25 @@ public class PlayfabController : MonoBehaviour
         }
     }
 
+    public void GetPlayerInLeadboard()
+    {
+        var request = new GetLeaderboardAroundPlayerRequest
+        {
+            StatisticName = "Score",
+            MaxResultsCount = 1
+        };
+
+        PlayFabClientAPI.GetLeaderboardAroundPlayer(request, OnPlayerInLeadboard, OnError);
+    }
+    void OnPlayerInLeadboard(GetLeaderboardAroundPlayerResult result)
+    {
+        foreach(var item in result.Leaderboard)
+        {
+            PlayerPrefs.SetString("Rank", (item.Position + 1).ToString());
+            PlayerPrefs.SetString("TotalScore", item.StatValue.ToString());
+            Debug.Log("GETTTTTTTTTTT "  + item.Position + "  " +  item.StatValue);
+        }
+    }
     void OnError(PlayFabError error)
     {
         registerMessage.text = error.ErrorMessage;

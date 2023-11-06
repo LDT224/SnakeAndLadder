@@ -85,6 +85,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
             maps[newPos].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             if(localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.Finish);
+            PlayfabController.instance.GetPlayerInLeadboard();
             StartCoroutine(EndMatch(currentPlayer));
             Debug.Log("Player: " + currentPlayer + "WINNNNN!!!!");
         }
@@ -326,7 +327,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     IEnumerator EndMatch(int winner)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         if (localPlayerID == PhotonNetwork.PlayerList[winner].UserId)
         {
             mainUIController.WinMatch();
@@ -341,11 +342,12 @@ public class MainGameController : MonoBehaviourPunCallbacks
             mainUIController.scoreTxt.text = "- " + score;
             PlayfabController.instance.SendLeaderboard(score * -1);
         }
+
+
+        mainUIController.totalScoreTxt.text = PlayerPrefs.GetString("TotalScore");
+        mainUIController.rankTxt.text = PlayerPrefs.GetString("Rank");
     }
 
-    public void calculateScore()
-    {
-    }
     // Update is called once per frame
     void Update()
     {
