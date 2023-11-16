@@ -39,6 +39,8 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public GameObject leadboardItem;
     public Transform leadboardList;
 
+    private bool isConnected = false;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -46,8 +48,14 @@ public class LobbyController : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
-        Debug.Log("Connect to server");
+        if (!isConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        else
+        {
+            Debug.Log("Already connected");
+        }
 
         if (PlayfabController.instance.userName == null)
         {
@@ -61,6 +69,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinLobby();
         PhotonNetwork.AutomaticallySyncScene = true;
+        isConnected = true;
         Debug.Log("Connected to server");
     }
 

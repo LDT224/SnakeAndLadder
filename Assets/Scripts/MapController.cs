@@ -58,7 +58,7 @@ public class MapController : MonoBehaviourPunCallbacks
     {
         int i = 0; 
         i = Random.Range(0, 3);
-        GameManager.Instance.ChangeTypeMap(i);
+        GameManager.Instance.ChangeTypeMap(3);
 
         numSnake = GameManager.Instance.numSnake;
         numLadder = GameManager.Instance.numLadder;

@@ -145,6 +145,7 @@ public class MainUIController : MonoBehaviourPunCallbacks
     }
     public void BackToLobby()
     {
+        LobbyController.Instance.LeaveRoom();
         SceneManager.LoadScene("MainMenu");
     }
     // Update is called once per frame
