@@ -149,8 +149,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             case 3:
                 numSnake = 0;
                 numLadder = 0;
-                minQues = 0;
-                maxQues = 0;
+                minQues = 15;
+                maxQues = 20;
                 minQuesBat = 0;
                 maxQuesBat = 0;
                 minMini = 0;

@@ -184,11 +184,11 @@ public class MainGameController : MonoBehaviourPunCallbacks
         string c = "";
         string d = "";
         string question = "";
-        data = listQuestion.text.Split(new string[] { ";", "\n" }, System.StringSplitOptions.None);
+        data = listQuestion.text.Split(new string[] { ";", "\n" }, System.StringSplitOptions.None);   
 
-        while(mainUIController.questionTxt.text == "")
+        while (mainUIController.questionTxt.text == "")
         {
-            int r = Random.Range(0, data.Length);
+            int r = Random.Range(1, data.Length);
 
             if (questionShowed.Contains(r) == false)
             {
@@ -253,7 +253,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                         }
                     }
                 }
-                questionShowed.Add(r);
+                photonView.RPC("RPC_AddQuestionShowedList", RpcTarget.All, r);
             }
             else
                 continue;
@@ -271,6 +271,12 @@ public class MainGameController : MonoBehaviourPunCallbacks
         mainUIController.dBtn.GetComponentInChildren<Text>().text = d;
         mainUIController.questionTxt.text = question;
         answer = _answer;
+    }
+
+    [PunRPC]
+    void RPC_AddQuestionShowedList(int ques)
+    {
+        questionShowed.Add(ques);
     }
 
     public void CheckAnswer(Button button)
