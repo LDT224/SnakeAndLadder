@@ -104,8 +104,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
     }
     private IEnumerator CheckBoxMoveIn(int currentPlayer ,int pos)
     {
-        yield return new WaitForSeconds(1.0f); // Wait 1 sec
-        int playerInTxt = currentPlayer + 1;
+        yield return new WaitForSeconds(1.5f); 
         List<string> playerInTurn = new List<string>();
         playerInTurn.Add(PhotonNetwork.PlayerList[currentPlayer].UserId);
 
@@ -116,7 +115,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 currentPos[currentPlayer] = snakes[pos];
                 maps[snakes[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             }
-            mainUIController.statusTxt.text = "Player " + playerInTxt + " in snake box";
+            mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " is bitten by a snake!";
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
@@ -127,20 +126,22 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 currentPos[currentPlayer] = ladders[pos];
                 maps[ladders[pos]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
             }
-            mainUIController.statusTxt.text = "Player " + playerInTxt + " in ladder box";
+            mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " is climbing up a ladder!";
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
         {
-            mainUIController.statusTxt.text = "Player " + playerInTxt + " in question box";
+            mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " in question box";
+            mainUIController.playerTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName;
+            mainUIController.ranPlayerTxt.text = "";
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GetQuestionData();
             mainUIController.OnQuestion(playerInTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
         {
-            mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle question box";
+            mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " in battle question box";
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GetQuestionData();
             while (true)
@@ -150,6 +151,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 if (ranPlayer != currentPlayer)
                 {
                     playerInTurn.Add(PhotonNetwork.PlayerList[ranPlayer].UserId);
+                    mainUIController.playerTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " VS";
+                    mainUIController.ranPlayerTxt.text = PhotonNetwork.PlayerList[ranPlayer].NickName;
                     break;
                 }
             }
@@ -157,20 +160,21 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.MiniGame)
         {
-            mainUIController.statusTxt.text = "Player " + playerInTxt + " in mini game box";
+            mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " in mini game box";
             currentPos[currentPlayer] = pos;
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleMiniGame)
         {
-            mainUIController.statusTxt.text = "Player " + playerInTxt + " in battle mini game box";
+            mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " in battle mini game box";
             currentPos[currentPlayer] = pos;
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
         }
         else
         {
+            mainUIController.statusTxt.text = "Good luck!";
             currentPos[currentPlayer] = pos;
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GameManager.Instance.ChangeStatus(GameManager.GameStatus.EndTurn);
@@ -283,7 +287,6 @@ public class MainGameController : MonoBehaviourPunCallbacks
     {
         if(button.GetComponentInChildren<Text>().text.Substring(3) == answer)
         {
-            Debug.Log("RIGHT!!!!!");
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
             {
                 currentPos[currentPlayer] = currentPos[currentPlayer] + numRoll;
@@ -294,8 +297,6 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.Log("WRONG!!!");
-            Debug.Log(answer);
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
             {
                 WrongAnswer();
@@ -318,11 +319,13 @@ public class MainGameController : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_RightAnswer(int newPos)
     {
+        mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " has won, the answer is: " + answer;
         currentPos[currentPlayer] = newPos;
     }
 
     public void WrongAnswer()
     {
+        mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " has lost, the answer is: " + answer;
         photonView.RPC("RPC_WrongAnswer",RpcTarget.All);
     }
     [PunRPC]

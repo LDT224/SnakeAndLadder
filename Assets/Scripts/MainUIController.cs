@@ -22,6 +22,8 @@ public class MainUIController : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject questionPanel;
     public Text questionTxt;
+    public Text playerTxt;
+    public Text ranPlayerTxt;
     public Button aBtn;
     public Button bBtn;
     public Button cBtn;
