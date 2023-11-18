@@ -3154,6 +3154,105 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1378730833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1378730835}
+  - component: {fileID: 1378730834}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1378730834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378730833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8a9553a28693c46ac829656f1047bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Theme
+    clip: {fileID: 8300000, guid: d36504d8033c65948a02eba7b0bee815, type: 3}
+    loop: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Bite
+    clip: {fileID: 8300000, guid: aa34af85bc6110a4d88096424b6867ac, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Dice
+    clip: {fileID: 8300000, guid: ca148ce2a8e405b4d905f4023ad8c47c, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Ladder
+    clip: {fileID: 8300000, guid: 62405c956fb895a449624ed0e1038951, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Correct
+    clip: {fileID: 8300000, guid: 496cf7547d20ce847aaaebec81057161, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Wrong
+    clip: {fileID: 8300000, guid: ff9ed0a7f6c83c94388be801c2c159a7, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Question
+    clip: {fileID: 8300000, guid: f76c84f4ca530f541a220501a207738c, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Win
+    clip: {fileID: 8300000, guid: 5d1faa97bcbe09a409afdea2fdf964f7, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Lose
+    clip: {fileID: 8300000, guid: 5535ed3381c3ca54d8d5a517877dc823, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+--- !u!4 &1378730835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378730833}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.83622867, y: 0.4112055, z: 291.84003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1389799504
 GameObject:
   m_ObjectHideFlags: 0

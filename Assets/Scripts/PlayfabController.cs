@@ -38,7 +38,6 @@ public class PlayfabController : MonoBehaviour
         {
             Destroy(gameObject); 
         }
-
     }
     void Start()
     {

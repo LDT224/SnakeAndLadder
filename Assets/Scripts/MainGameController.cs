@@ -110,6 +110,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.SnakeHead)
         {
+            AudioManager.instance.Play("Bite");
             if (snakes.ContainsKey(pos))
             {
                 currentPos[currentPlayer] = snakes[pos];
@@ -121,6 +122,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.LadderBottom)
         {
+            AudioManager.instance.Play("Ladder");
             if (ladders.ContainsKey(pos))
             {
                 currentPos[currentPlayer] = ladders[pos];
@@ -132,6 +134,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.Question)
         {
+            AudioManager.instance.Play("Question");
             mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " in question box";
             mainUIController.playerTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName;
             mainUIController.ranPlayerTxt.text = "";
@@ -141,6 +144,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }
         else if (maps[pos].GetComponent<BoxController>().status == BoxController.BoxStatus.BattleQuestion)
         {
+            AudioManager.instance.Play("Question");
             mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " in battle question box";
             if (localPlayerID == PhotonNetwork.PlayerList[currentPlayer].UserId)
                 GetQuestionData();
@@ -319,18 +323,20 @@ public class MainGameController : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_RightAnswer(int newPos)
     {
+        AudioManager.instance.Play("Correct");
         mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " has won, the answer is: " + answer;
         currentPos[currentPlayer] = newPos;
     }
 
     public void WrongAnswer()
     {
-        mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " has lost, the answer is: " + answer;
         photonView.RPC("RPC_WrongAnswer",RpcTarget.All);
     }
     [PunRPC]
     void RPC_WrongAnswer()
     {
+        AudioManager.instance.Play("Wrong");
+        mainUIController.statusTxt.text = PhotonNetwork.PlayerList[currentPlayer].NickName + " has lost, the answer is: " + answer;
         maps[currentPos[currentPlayer]].GetComponent<BoxController>().CheckSlotPlayer(players[currentPlayer]);
     }
 
@@ -339,6 +345,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2f);
         if (localPlayerID == PhotonNetwork.PlayerList[winner].UserId)
         {
+            AudioManager.instance.Play("Win");
             mainUIController.WinMatch();
             int score = 100 - numberOfDiceRolls;
             mainUIController.scoreTxt.text = "+ " + score;
@@ -346,6 +353,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }
         else
         {
+            AudioManager.instance.Play("Lose");
             mainUIController.LoseMatch();
             int score = GameManager.Instance.totalMap - currentPos[PhotonNetwork.LocalPlayer.ActorNumber - 1] - 1;
             mainUIController.scoreTxt.text = "- " + score;
