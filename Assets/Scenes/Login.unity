@@ -2999,10 +2999,10 @@ RectTransform:
   m_Father: {fileID: 1517660078}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 830}
-  m_SizeDelta: {x: -14, y: 150}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -388}
+  m_SizeDelta: {x: 1110, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1327739998
 MonoBehaviour:
@@ -3183,61 +3183,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8a9553a28693c46ac829656f1047bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
+  musicSounds:
   - name: Theme
     clip: {fileID: 8300000, guid: d36504d8033c65948a02eba7b0bee815, type: 3}
     loop: 1
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    mixer: {fileID: -6825680655246520354, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
+  sfxSounds:
   - name: Bite
     clip: {fileID: 8300000, guid: aa34af85bc6110a4d88096424b6867ac, type: 3}
     loop: 0
     volume: 1
     pitch: 1
     source: {fileID: 0}
-  - name: Dice
-    clip: {fileID: 8300000, guid: ca148ce2a8e405b4d905f4023ad8c47c, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
   - name: Ladder
     clip: {fileID: 8300000, guid: 62405c956fb895a449624ed0e1038951, type: 3}
     loop: 0
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
+  - name: Dice
+    clip: {fileID: 8300000, guid: ca148ce2a8e405b4d905f4023ad8c47c, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
   - name: Correct
     clip: {fileID: 8300000, guid: 496cf7547d20ce847aaaebec81057161, type: 3}
     loop: 0
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
   - name: Wrong
     clip: {fileID: 8300000, guid: ff9ed0a7f6c83c94388be801c2c159a7, type: 3}
     loop: 0
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
   - name: Question
     clip: {fileID: 8300000, guid: f76c84f4ca530f541a220501a207738c, type: 3}
     loop: 0
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
   - name: Win
     clip: {fileID: 8300000, guid: 5d1faa97bcbe09a409afdea2fdf964f7, type: 3}
     loop: 0
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
   - name: Lose
     clip: {fileID: 8300000, guid: 5535ed3381c3ca54d8d5a517877dc823, type: 3}
     loop: 0
     volume: 1
     pitch: 1
     source: {fileID: 0}
+    mixer: {fileID: 4066788348814756390, guid: 333c5d7d920925f438842aa3bbadc3aa, type: 2}
 --- !u!4 &1378730835
 Transform:
   m_ObjectHideFlags: 0

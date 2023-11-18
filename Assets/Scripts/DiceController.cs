@@ -32,7 +32,7 @@ public class DiceController : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_RollAnimation(int temp)
     {
-        AudioManager.instance.Play("Dice");
+        AudioManager.instance.PlaySFX("Dice");
         roll = temp;
         Animator animator = GetComponent<Animator>();
         animator.Play("Dice Roll", -1, 0f);
