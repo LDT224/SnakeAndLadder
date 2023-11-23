@@ -41,6 +41,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     private bool isConnected = false;
 
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -198,8 +199,13 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     public void SubmitUsername()
     {
+        if (userNameText.text == "")
+        {
+            return;
+        }
         PlayfabController.instance.UpdateUserName(userNameText.text);
         SetPlayerName();
+        enterUsernamePanel.SetActive(false);
     }
     public void StartGame()
     {

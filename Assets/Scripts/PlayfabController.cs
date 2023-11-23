@@ -141,6 +141,7 @@ public class PlayfabController : MonoBehaviour
     void OnDisplayNameUpdate(UpdateUserTitleDisplayNameResult result)
     {
         PlayerPrefs.SetString("UserName", result.DisplayName);
+        SendLeaderboard(1000);
     }
 
     public void SendLeaderboard(int score)
