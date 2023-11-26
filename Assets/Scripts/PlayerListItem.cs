@@ -9,6 +9,10 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private Text playerNameTxt;
+    [SerializeField]
+    private Text playerScoreTxt;
+    [SerializeField]
+    private Text playerRankTxt;
     Player player;
 
     private LobbyController lobbyController;

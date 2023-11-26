@@ -360,7 +360,6 @@ public class MainGameController : MonoBehaviourPunCallbacks
             PlayfabController.instance.SendLeaderboard(score * -1);
         }
 
-
         mainUIController.totalScoreTxt.text = PlayerPrefs.GetString("TotalScore");
         mainUIController.rankTxt.text = PlayerPrefs.GetString("Rank");
     }

@@ -478,7 +478,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e4bd9b0fbd07fb84b9029eb987f68271, type: 3}
-    m_FontSize: 46
+    m_FontSize: 65
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -489,37 +489,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Each player will start at square number 1.
-
-    In turn, each player will
-    roll the dice. The character will move the number of squares indicated on the
-    dice.
-
-    If you land on a bottom ladder square, you will move to the top ladder
-    square.
-
-    If you land on a head snake square, you will be bitten and move
-    to the tail snake square.
-
-    If you land on a question square, you need to
-    answer the question correctly to stay in place. If you answer incorrectly or
-    run out of time, you must go back to the previous position.
-
-    If you land
-    on a battle question square, you need to answer the question faster than a randomly
-    chosen player in the room. If that random player answers correctly or you answer
-    incorrectly or run out of time, you must go back to the previous position.
-
-    If
-    you land on a mini-game square, you need to win the mini-game or achieve a certain
-    number of points. If you lose, you must go back to the previous position.
-
-    If
-    you land on a battle mini-game square, you need to win the mini-game when facing
-    off against a randomly chosen player.
-
-    The player who reaches the last square
-    first will be the winner.'
+  m_Text: Players start at square number 1 and take turns rolling the dice to move.
+    Landing on a bottom ladder moves you to the top, while landing on a head snake
+    bites you and moves you to the tail. Question squares require a correct answer
+    to stay, or you go back. Battle question squares demand a faster answer than
+    a random player, with penalties for incorrect or late responses. Mini-game squares
+    necessitate winning or achieving a set score to stay, or you go back. In battle
+    mini-game squares, you must win against a randomly chosen player. The first player
+    to reach the last square wins.
 --- !u!222 &71488352
 CanvasRenderer:
   m_ObjectHideFlags: 0
