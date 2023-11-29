@@ -48,11 +48,28 @@ public class GameManager : MonoBehaviourPunCallbacks
     //Dice
     public bool canRoll;
 
-
     // Public accessor for the singleton instance
     public static GameManager Instance
     {
         get { return instance; }
+    }
+
+    private void Awake()
+    {
+        // Check if an instance already exists
+        if (instance != null && instance != this)
+        {
+            // Destroy duplicate instance
+            Destroy(gameObject);
+            return;
+        }
+
+        // Set the instance
+        instance = this;
+
+        // Keep the GameManager object throughout scenes
+        DontDestroyOnLoad(gameObject);
+
     }
 
     private void Start()
@@ -161,26 +178,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void Awake()
-    {
-        // Check if an instance already exists
-        if (instance != null && instance != this)
-        {
-            // Destroy duplicate instance
-            Destroy(gameObject);
-            return;
-        }
-
-        // Set the instance
-        instance = this;
-
-        //Can roll dice
-        //canRoll = true;
-
-        // Keep the GameManager object throughout scenes
-        DontDestroyOnLoad(gameObject);
-
-    }
 
     private void OnDestroy()
     {
